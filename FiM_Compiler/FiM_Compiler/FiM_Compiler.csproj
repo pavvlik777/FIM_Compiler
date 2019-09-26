@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C4F9C180-A3EE-46AC-9D68-E0CBD2AE8BB2}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>FiM_Compiler</RootNamespace>
+    <AssemblyName>FiM_Compiler</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CodeGeneration\Compiler.cs" />
+    <Compile Include="CodeGeneration\CompilerFactory.cs" />
+    <Compile Include="CodeGeneration\CompilerMode.cs" />
+    <Compile Include="CodeGeneration\Compilers\CSharpCompiler.cs" />
+    <Compile Include="CodeGeneration\Compilers\CSharp\LexerAnalysises\ILexerAnalysis.cs" />
+    <Compile Include="CodeGeneration\Compilers\CSharp\LexerAnalysises\InitialAnalysis.cs" />
+    <Compile Include="CodeGeneration\Compilers\CSharp\LexerAnalysises\KeywordAnalysis.cs" />
+    <Compile Include="CodeGeneration\Compilers\CSharp\Lexer.cs" />
+    <Compile Include="CodeGeneration\Compilers\ExeCompiler.cs" />
+    <Compile Include="CodeGeneration\GenerationData\InitialTokenRules\CharToNameRule.cs" />
+    <Compile Include="CodeGeneration\GenerationData\InitialTokenRules\NameMergeRule.cs" />
+    <Compile Include="CodeGeneration\GenerationData\InitialTokenRules\NameWithWhitespaceMergeRule.cs" />
+    <Compile Include="CodeGeneration\GenerationData\InitialTokenRules\WhiteSpaceMergeRule.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\ClassesAndInterfaces\ClassDeclarationRule.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\ClassesAndInterfaces\ClassDeclarationWithExtendsRule.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\ClassesAndInterfaces\ClassEndDeclaration.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\ClassesAndInterfaces\ClassExtendsMergeRule.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\ClassesAndInterfaces\ClassExtendsRule.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\ClassesAndInterfaces\InterfaceDeclaration.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\ClassesAndInterfaces\InterfaceDeclarationWithExtends.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\Comments\InlineCommentMergeRule.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\Comments\InlineCommentStartRule.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\MethodsActions\MethodReturn.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\MethodsDeclaration\EndMethodDeclaration.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\MethodsDeclaration\MainMethodDeclaration.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\MethodsDeclaration\MethodDeclaration.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\MethodsDeclaration\MethodParameters.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\MethodsDeclaration\MethodParametersExtra.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\MethodsDeclaration\MethodParametersMerge.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\MethodsDeclaration\MethodWithParametersDeclaration.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\MethodsDeclaration\MethodWithReturnAndParametersDeclaration.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\MethodsDeclaration\MethodWithReturnDeclaration.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\Variables\VariableDeclarationWithType.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\Variables\VariableDeclarationAndAssignValue.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\Variables\VariableDeclaration.cs" />
+    <Compile Include="CodeGeneration\GenerationData\SyntaxNode.cs" />
+    <Compile Include="CodeGeneration\GenerationData\Token.cs" />
+    <Compile Include="CodeGeneration\GenerationData\TokenRule.cs" />
+    <Compile Include="CodeGeneration\GenerationData\TokenType.cs" />
+    <Compile Include="Error.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StringExtensions.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
