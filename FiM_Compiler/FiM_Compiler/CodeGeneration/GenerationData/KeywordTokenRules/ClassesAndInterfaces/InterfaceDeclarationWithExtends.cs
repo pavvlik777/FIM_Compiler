@@ -29,8 +29,8 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules
 
         protected override void PerformRuleTransform(ref List<Token> stack)
         {
-            List<string> childsInput = new List<string>();
-            childsInput.Add(stack[stack.Count - 4].Value);
+            List<Token> childsInput = new List<Token>();
+            childsInput.Add(stack[stack.Count - 4]);
             foreach (var cur in stack[stack.Count - 2].Childs)
                 childsInput.Add(cur);
             ConvertTokens(ref stack, rule.Length, returnType, childsInput);

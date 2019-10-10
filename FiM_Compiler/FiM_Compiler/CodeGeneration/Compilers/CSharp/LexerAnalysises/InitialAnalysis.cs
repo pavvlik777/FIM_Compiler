@@ -9,7 +9,8 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
     {
         string[] keywords = { "Dear", "Dearest", "Your faithful student", "I learned", "Today", "That's all about", "and",
         "with", "to get", "using", "Then you get", "Did you know that",
-        "is", "was", "has", "had", "like", "likes", "liked" };
+        "is", "was", "has", "had", "like", "likes", "liked",
+        "I said"};
         string[] variablesTypes = { "the number", "a number", "number", "numbers", "many numbers", "character", "a character", "the character", "letter", "a letter", "the letter",
             "many letters", "many characters", "letters", "many characters", "word", "phrase", "sentence", "quote", "name", "a word", "a phrase", "a sentence", "a quote", "a name",
             "the word", "the phrase", "the sentence", "the quote", "the name", "many words", "many phrases", "many sentences", "many quotes", "many names", "logic", "argument",
@@ -169,14 +170,14 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
             return output;
         }
 
-        void ConvertTokens(ref List<Token> stack, int amount, TokenType newType, List<string> childs = null)
+        void ConvertTokens(ref List<Token> stack, int amount, TokenType newType, List<Token> childs = null)
         {
             string value = "";
             Token newToken = null;
             for (int j = amount; j >= 1; j--)
                 value += stack[stack.Count - j].Value;
             if (childs != null)
-                newToken = new Token(newType, value, new List<string>(childs));
+                newToken = new Token(newType, value, new List<Token>(childs));
             else
                 newToken = new Token(newType, value);
             for (int j = 1; j <= amount; j++)
@@ -248,36 +249,11 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
                     }
                 }
             }
-            //SortKeywords();
             Sort(ref keywords);
             Sort(ref variablesTypes);
         }
 
         void Sort(ref string[] keywords)
-        {
-            for (int i = 0; i < keywords.Length - 1; i++)
-            {
-                for (int j = i + 1; j < keywords.Length; j++)
-                {
-                    int first = 0;
-                    for (int t = 0; t < keywords[i].Length; t++)
-                        if (keywords[i][t] == ' ')
-                            first++;
-                    int second = 0;
-                    for (int t = 0; t < keywords[j].Length; t++)
-                        if (keywords[j][t] == ' ')
-                            second++;
-                    if (first < second)
-                    {
-                        string temp = keywords[i];
-                        keywords[i] = keywords[j];
-                        keywords[j] = temp;
-                    }
-                }
-            }
-        }
-
-        void SortKeywords()
         {
             for (int i = 0; i < keywords.Length - 1; i++)
             {

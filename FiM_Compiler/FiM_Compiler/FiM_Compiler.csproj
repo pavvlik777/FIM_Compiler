@@ -47,10 +47,14 @@
     <Compile Include="CodeGeneration\CompilerFactory.cs" />
     <Compile Include="CodeGeneration\CompilerMode.cs" />
     <Compile Include="CodeGeneration\Compilers\CSharpCompiler.cs" />
+    <Compile Include="CodeGeneration\Compilers\CSharp\ErrorsChecks\AmountOfEntryPointsCheck.cs" />
+    <Compile Include="CodeGeneration\Compilers\CSharp\ErrorsChecks\ChecksBounds.cs" />
+    <Compile Include="CodeGeneration\Compilers\CSharp\ErrorsChecks\ILexerErrorCheck.cs" />
     <Compile Include="CodeGeneration\Compilers\CSharp\LexerAnalysises\ILexerAnalysis.cs" />
     <Compile Include="CodeGeneration\Compilers\CSharp\LexerAnalysises\InitialAnalysis.cs" />
-    <Compile Include="CodeGeneration\Compilers\CSharp\LexerAnalysises\KeywordAnalysis.cs" />
+    <Compile Include="CodeGeneration\Compilers\CSharp\LexerAnalysises\KeywordDeclarationAnalysis.cs" />
     <Compile Include="CodeGeneration\Compilers\CSharp\Lexer.cs" />
+    <Compile Include="CodeGeneration\Compilers\CSharp\ErrorsChecks\NamesErrorChecks.cs" />
     <Compile Include="CodeGeneration\Compilers\ExeCompiler.cs" />
     <Compile Include="CodeGeneration\GenerationData\InitialTokenRules\CharToNameRule.cs" />
     <Compile Include="CodeGeneration\GenerationData\InitialTokenRules\NameMergeRule.cs" />

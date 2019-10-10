@@ -9,11 +9,9 @@ using FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules;
 
 namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
 {
-    public class KeywordAnalysis : ILexerAnalysis
+    public class KeywordDeclarationAnalysis : ILexerAnalysis
     {
         List<TokenRule> declarationRules;
-        List<string> methodNames; //TODO
-        List<string> variablesNames;
 
         public List<Token> PerformLexicalAnalysis(List<Token> tokens, string sourceCode)
         {
@@ -28,35 +26,6 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
                     i++;
                 }
             }
-            i = 0;
-            methodNames = new List<string>();
-            variablesNames = new List<string>();
-            while(i < stack.Count)
-            {
-                switch(stack[i].Type)
-                {
-                    case TokenType.MethodDeclaration:
-                        methodNames.Add(stack[i].Childs[0]);
-                        break;
-                    case TokenType.VariableDeclaration:
-                    case TokenType.VariableDeclarationAndAssign:
-                        variablesNames.Add(stack[i].Childs[0]);
-                        break;
-                }
-                i++;
-            }
-            //initStack.Clear();
-            //initStack = new List<Token>(stack);
-            //stack.Clear();
-            //i = 0;
-            //while (i < initStack.Count)
-            //{
-            //    if (!CheckStackForPatterns(ref stack, declarationRules))
-            //    {
-            //        stack.Add(initStack[i]);
-            //        i++;
-            //    }
-            //}
             return stack;
         }
 
@@ -73,7 +42,7 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
         }
 
         #region Constructor
-        public KeywordAnalysis()
+        public KeywordDeclarationAnalysis()
         {
             declarationRules = new List<TokenRule>()
             {
@@ -85,9 +54,7 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
                 new MainMethodDeclaration(), new MethodDeclaration(), new MethodWithParametersDeclaration(), new MethodWithReturnAndParametersDeclaration(), new MethodWithReturnDeclaration(),
                 new MethodParameters(), new MethodParametersExtra(), new MethodParametersMerge(), new EndMethodDeclaration(),
 
-                new VariableDeclaration(), new VariableDeclarationAndAssignValue(), new VariableDeclarationWithType(),
-
-                new MethodReturn()
+                new VariableDeclaration(), new VariableDeclarationAndAssignValue(), new VariableDeclarationWithType()
             };
             Sort(ref declarationRules);
         }

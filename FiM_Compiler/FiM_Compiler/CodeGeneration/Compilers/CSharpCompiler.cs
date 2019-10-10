@@ -17,9 +17,13 @@ namespace FiM_Compiler.CodeGeneration.Compilers
             base.Compile(sourceCode, filename);
             InitialPreparing();
             Lexer lexer = new Lexer(this.sourceCode);
-            tokens = lexer.PerformLexicalAnalysis();
-            foreach (var cur in tokens)
-                Console.WriteLine(cur.ToString());
+            bool status = true;
+            (tokens, status) = lexer.PerformLexicalAnalysis(compileErrors);
+            if(status)
+            {
+                foreach (var cur in tokens)
+                    Console.WriteLine(cur.ToString());
+            }
             //Parser parser = new Parser(tokens, compileErrors);
             //if (parser.GenerateSyntaxTree(ref syntaxTreeHead))
             //{

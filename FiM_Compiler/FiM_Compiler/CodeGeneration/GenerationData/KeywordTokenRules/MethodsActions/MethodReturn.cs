@@ -14,7 +14,23 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules
             {
                 new TokenType[]
                 {
-                TokenType.Keyword, TokenType.SingleSpace, TokenType.Literal, TokenType.Punctuation
+                TokenType.Keyword, TokenType.SingleSpace, TokenType.BoolLiteral, TokenType.Punctuation
+                },
+                new TokenType[]
+                {
+                TokenType.Keyword, TokenType.SingleSpace, TokenType.CharLiteral, TokenType.Punctuation
+                },
+                new TokenType[]
+                {
+                TokenType.Keyword, TokenType.SingleSpace, TokenType.IntLiteral, TokenType.Punctuation
+                },
+                new TokenType[]
+                {
+                TokenType.Keyword, TokenType.SingleSpace, TokenType.NullLiteral, TokenType.Punctuation
+                },
+                new TokenType[]
+                {
+                TokenType.Keyword, TokenType.SingleSpace, TokenType.StringLiteral, TokenType.Punctuation
                 }
             };
             CheckVariations();
@@ -35,8 +51,8 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules
 
         protected override void PerformRuleTransform(ref List<Token> stack)
         {
-            List<string> childsInput = new List<string>();
-            childsInput.Add(stack[stack.Count - 2].Value);
+            List<Token> childsInput = new List<Token>();
+            childsInput.Add(stack[stack.Count - 2]);
             ConvertTokens(ref stack, rule.Length, returnType, childsInput);
         }
     }
