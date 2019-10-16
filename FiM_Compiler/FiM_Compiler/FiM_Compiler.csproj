@@ -49,26 +49,69 @@
     <Compile Include="CodeGeneration\Compilers\CSharpCompiler.cs" />
     <Compile Include="CodeGeneration\Compilers\CSharp\ErrorsChecks\AmountOfEntryPointsCheck.cs" />
     <Compile Include="CodeGeneration\Compilers\CSharp\ErrorsChecks\ChecksBounds.cs" />
-    <Compile Include="CodeGeneration\Compilers\CSharp\ErrorsChecks\ILexerErrorCheck.cs" />
-    <Compile Include="CodeGeneration\Compilers\CSharp\LexerAnalysises\ILexerAnalysis.cs" />
+    <Compile Include="CodeGeneration\Compilers\CSharp\LexerAnalysises\ArifmeticAnalysis.cs" />
+    <Compile Include="CodeGeneration\Compilers\CSharp\LexerAnalysises\VariablesAndMethodsNames.cs" />
+    <Compile Include="CodeGeneration\Compilers\CSharp\LexerAnalysises\UserInteractionAnalysis.cs" />
+    <Compile Include="CodeGeneration\Compilers\Interfaces\ILexerErrorCheck.cs" />
+    <Compile Include="CodeGeneration\Compilers\CSharp\ErrorsChecks\CommentsChecks.cs" />
+    <Compile Include="CodeGeneration\Compilers\CSharp\LexerAnalysises\CommentsAnalysis.cs" />
+    <Compile Include="CodeGeneration\Compilers\Interfaces\ILexerAnalysis.cs" />
     <Compile Include="CodeGeneration\Compilers\CSharp\LexerAnalysises\InitialAnalysis.cs" />
     <Compile Include="CodeGeneration\Compilers\CSharp\LexerAnalysises\KeywordDeclarationAnalysis.cs" />
     <Compile Include="CodeGeneration\Compilers\CSharp\Lexer.cs" />
     <Compile Include="CodeGeneration\Compilers\CSharp\ErrorsChecks\NamesErrorChecks.cs" />
+    <Compile Include="CodeGeneration\Compilers\CSharp\LexerAnalysises\MethodsCallingAnalysis.cs" />
     <Compile Include="CodeGeneration\Compilers\ExeCompiler.cs" />
+    <Compile Include="CodeGeneration\Compilers\Interfaces\ILexer.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordsDictionary.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\ArifmeticOperations\AdditionPrefix.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\ArifmeticOperations\ArifmeticDecrement.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\ArifmeticOperations\ArifmeticExpression.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\ArifmeticOperations\ArifmeticIncrement.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\ArifmeticOperations\MultiplicationInfix.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\ArifmeticOperations\MultiplicationPrefix.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\ArifmeticOperations\DivisionInfix.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\ArifmeticOperations\SubstractionInfix.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\ArifmeticOperations\DivisionPrefix.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\ArifmeticOperations\SubstractionPrefix.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\BooleanOperations\BooleanComparsionsExpression.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\BooleanOperations\IsGreaterThanOrEqual.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\BooleanOperations\IsGreaterThan.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\BooleanOperations\IsLessThanOrEqual.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\BooleanOperations\IsLessThan.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\BooleanOperations\IsNotEqual.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\BooleanOperations\IsEqual.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\BooleanOperators\BooleanOperatorsExpression.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\BooleanOperators\BooleanNot.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\BooleanOperators\BooleanXor.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\BooleanOperators\BooleanOr.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\BooleanOperators\BooleanAnd.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\UserInteractions\Input.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\UserInteractions\Output.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\UserInteractions\Prompt.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordType.cs" />
     <Compile Include="CodeGeneration\GenerationData\InitialTokenRules\CharToNameRule.cs" />
     <Compile Include="CodeGeneration\GenerationData\InitialTokenRules\NameMergeRule.cs" />
     <Compile Include="CodeGeneration\GenerationData\InitialTokenRules\NameWithWhitespaceMergeRule.cs" />
     <Compile Include="CodeGeneration\GenerationData\InitialTokenRules\WhiteSpaceMergeRule.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\ArifmeticOperations\AdditionInfix.cs" />
     <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\ClassesAndInterfaces\ClassDeclarationRule.cs" />
     <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\ClassesAndInterfaces\ClassDeclarationWithExtendsRule.cs" />
     <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\ClassesAndInterfaces\ClassEndDeclaration.cs" />
     <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\ClassesAndInterfaces\ClassExtendsMergeRule.cs" />
     <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\ClassesAndInterfaces\ClassExtendsRule.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\ClassesAndInterfaces\InterfaceMainPartRule.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\ClassesAndInterfaces\ClassMainPartRule.cs" />
     <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\ClassesAndInterfaces\InterfaceDeclaration.cs" />
     <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\ClassesAndInterfaces\InterfaceDeclarationWithExtends.cs" />
     <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\Comments\InlineCommentMergeRule.cs" />
     <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\Comments\InlineCommentStartRule.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\MethodsActions\MethodCallingWithKeyword.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\MethodsActions\MethodCalling.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\MethodsActions\MethodCallingParametersMerge.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\MethodsActions\MethodCallingParametersExtra.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\MethodsActions\MethodCallingParameters.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\MethodsActions\MethodCallingWithParameters.cs" />
     <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\MethodsActions\MethodReturn.cs" />
     <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\MethodsDeclaration\EndMethodDeclaration.cs" />
     <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\MethodsDeclaration\MainMethodDeclaration.cs" />
@@ -94,6 +137,8 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="CodeGeneration\GenerationData\KeywordTokenRules\StatementsAndLoops\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

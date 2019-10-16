@@ -12,9 +12,9 @@ namespace FiM_Compiler.CodeGeneration.GenerationData
         public int Amount
         { get { return rule.Length; } }
 
-        public abstract bool IsStackMatch(ref List<Token> stack);
+        public abstract bool IsStackMatch(List<Token> stack);
 
-        protected abstract void PerformRuleTransform(ref List<Token> stack);
+        protected abstract void PerformRuleTransform(List<Token> stack);
 
         protected void CheckVariations()
         {
@@ -42,6 +42,47 @@ namespace FiM_Compiler.CodeGeneration.GenerationData
                     if (checks[j] == TokenType.Whitespace)
                     {
                         if (stack[stack.Count - i].Type != TokenType.Whitespace && stack[stack.Count - i].Type != TokenType.SingleSpace)
+                        {
+                            output = false;
+                            break;
+                        }
+                    }
+                //TODO check literals
+                    else if (checks[j] == TokenType.Literal)
+                    {
+                        if (stack[stack.Count - i].Type != TokenType.BoolLiteral && stack[stack.Count - i].Type != TokenType.CharLiteral && stack[stack.Count - i].Type != TokenType.IntLiteral
+                             && stack[stack.Count - i].Type != TokenType.NullLiteral && stack[stack.Count - i].Type != TokenType.StringLiteral)
+                        {
+                            output = false;
+                            break;
+                        }
+                    }
+                    else if(checks[j] == TokenType.Value)
+                    {
+                        if(stack[stack.Count - i].Type != TokenType.BoolLiteral && stack[stack.Count - i].Type != TokenType.CharLiteral && stack[stack.Count - i].Type != TokenType.IntLiteral
+                             && stack[stack.Count - i].Type != TokenType.NullLiteral && stack[stack.Count - i].Type != TokenType.StringLiteral && stack[stack.Count - i].Type != TokenType.Name
+                             && stack[stack.Count - i].Type != TokenType.MethodCalling && stack[stack.Count - i].Type != TokenType.VariableName
+                             && stack[stack.Count - i].Type != TokenType.ArifmeticExpression && stack[stack.Count - i].Type != TokenType.BooleanExpression)
+                        {
+                            output = false;
+                            break;
+                        }
+                    }
+                    else if(checks[j] == TokenType.BoolValue)
+                    {
+                        if(stack[stack.Count - i].Type != TokenType.BoolLiteral && stack[stack.Count - i].Type != TokenType.BooleanExpression
+                            //TODO variables and methods
+                            )
+                        {
+                            output = false;
+                            break;
+                        }
+                    }
+                    else if (checks[j] == TokenType.IntValue)
+                    {
+                        if (stack[stack.Count - i].Type != TokenType.IntLiteral && stack[stack.Count - i].Type != TokenType.ArifmeticExpression
+                            //TODO variables and methods
+                            )
                         {
                             output = false;
                             break;

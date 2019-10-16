@@ -7,14 +7,8 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
 {
     public class InitialAnalysis : ILexerAnalysis
     {
-        string[] keywords = { "Dear", "Dearest", "Your faithful student", "I learned", "Today", "That's all about", "and",
-        "with", "to get", "using", "Then you get", "Did you know that",
-        "is", "was", "has", "had", "like", "likes", "liked",
-        "I said"};
-        string[] variablesTypes = { "the number", "a number", "number", "numbers", "many numbers", "character", "a character", "the character", "letter", "a letter", "the letter",
-            "many letters", "many characters", "letters", "many characters", "word", "phrase", "sentence", "quote", "name", "a word", "a phrase", "a sentence", "a quote", "a name",
-            "the word", "the phrase", "the sentence", "the quote", "the name", "many words", "many phrases", "many sentences", "many quotes", "many names", "logic", "argument",
-            "a logic", "an argument", "the logic", "the argument" };
+        string[] keywords;
+        string[] variablesTypes;
         char[] punctuation = { ':', '.', '!', ',', '?' };
 
         List<TokenRule> rules;
@@ -77,7 +71,7 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
         {
             bool output = false;
             foreach (var cur in rules)
-                if (cur.IsStackMatch(ref tokens))
+                if (cur.IsStackMatch(tokens))
                 {
                     output = true;
                     break;
@@ -100,10 +94,8 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
         bool IsPunctuation(char input)
         {
             foreach (var cur in punctuation)
-            {
                 if (input == cur)
                     return true;
-            }
             return false;
         }
 
@@ -153,7 +145,14 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
                         }
                         else
                         {
-                            if (stack[stack.Count - i].Type != TokenType.Name || stack[stack.Count - i].Value != template[template.Length - (i + 1) / 2])
+                            if ((stack[stack.Count - i].Type != TokenType.Name && template.Length == 1)
+                                || stack[stack.Count - i].Value != template[template.Length - (i + 1) / 2])
+                            {
+                                output = false;
+                                break;
+                            }
+                            else if ((stack[stack.Count - i].Type != TokenType.Name && stack[stack.Count - i].Type != TokenType.VariableType && template.Length > 1)
+                               || stack[stack.Count - i].Value != template[template.Length - (i + 1) / 2])
                             {
                                 output = false;
                                 break;
@@ -206,7 +205,14 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
                         }
                         else
                         {
-                            if (stack[stack.Count - i].Type != TokenType.Name || stack[stack.Count - i].Value != template[template.Length - (i + 1) / 2])
+                            if ((stack[stack.Count - i].Type != TokenType.Name && template.Length == 1)
+                                || stack[stack.Count - i].Value != template[template.Length - (i + 1) / 2])
+                            {
+                                output = false;
+                                break;
+                            }
+                            else  if ((stack[stack.Count - i].Type != TokenType.Name && stack[stack.Count - i].Type != TokenType.Keyword && template.Length > 1)
+                                || stack[stack.Count - i].Value != template[template.Length - (i + 1) / 2])
                             {
                                 output = false;
                                 break;
@@ -249,6 +255,8 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
                     }
                 }
             }
+            keywords = KeywordsDictionary.GetKeywords().ToArray();
+            variablesTypes = KeywordsDictionary.GetVariableTypes().ToArray();
             Sort(ref keywords);
             Sort(ref variablesTypes);
         }

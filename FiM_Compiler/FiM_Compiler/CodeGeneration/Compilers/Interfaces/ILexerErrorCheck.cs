@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using FiM_Compiler.CodeGeneration.GenerationData;
 
-namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.ErrorsChecks
+namespace FiM_Compiler.CodeGeneration.Compilers
 {
     public interface ILexerErrorCheck
     {

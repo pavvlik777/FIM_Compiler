@@ -20,7 +20,7 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
             int i = 0;
             while (i < initStack.Count)
             {
-                if (!CheckStackForPatterns(ref stack, declarationRules))
+                if (!CheckStackForPatterns(stack, declarationRules))
                 {
                     stack.Add(initStack[i]);
                     i++;
@@ -29,11 +29,11 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
             return stack;
         }
 
-        bool CheckStackForPatterns(ref List<Token> tokens, List<TokenRule> rules)
+        bool CheckStackForPatterns(List<Token> tokens, List<TokenRule> rules)
         {
             bool output = false;
             foreach (var cur in rules)
-                if (cur.IsStackMatch(ref tokens))
+                if (cur.IsStackMatch(tokens))
                 {
                     output = true;
                     break;
@@ -46,30 +46,32 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
         {
             declarationRules = new List<TokenRule>()
             {
-                new InlineCommentStartRule(), new InlineCommentMergeRule(),
-
-                new ClassExtendsRule(), new ClassExtendsMergeRule(), new ClassDeclarationRule(), new ClassDeclarationWithExtendsRule(), new ClassEndDeclaration(),
+                new ClassMainPartRule(), new InterfaceMainPartRule(), new ClassExtendsRule(), new ClassExtendsMergeRule(),
+                new ClassDeclarationRule(), new ClassDeclarationWithExtendsRule(),
                 new InterfaceDeclaration(), new InterfaceDeclarationWithExtends(),
+                new ClassEndDeclaration(),
 
-                new MainMethodDeclaration(), new MethodDeclaration(), new MethodWithParametersDeclaration(), new MethodWithReturnAndParametersDeclaration(), new MethodWithReturnDeclaration(),
-                new MethodParameters(), new MethodParametersExtra(), new MethodParametersMerge(), new EndMethodDeclaration(),
+                new MainMethodDeclaration(),
+                new MethodDeclaration(), new MethodWithParametersDeclaration(), new MethodWithReturnDeclaration(), new MethodWithReturnAndParametersDeclaration(),
+                new MethodParameters(), new MethodParametersExtra(), new MethodParametersMerge(),
+                new EndMethodDeclaration(),
 
                 new VariableDeclaration(), new VariableDeclarationAndAssignValue(), new VariableDeclarationWithType()
             };
-            Sort(ref declarationRules);
+            Sort(declarationRules);
         }
 
-        void Sort(ref List<TokenRule> rules)
+        void Sort(List<TokenRule> rules)
         {
             for (int i = 0; i < rules.Count - 1; i++) // Comment this if need specific order
             {
                 for (int j = i + 1; j < rules.Count; j++)
                 {
-                    if (declarationRules[i].Amount < declarationRules[j].Amount)
+                    if (rules[i].Amount < rules[j].Amount)
                     {
-                        TokenRule temp = declarationRules[i];
-                        declarationRules[i] = declarationRules[j];
-                        declarationRules[j] = temp;
+                        TokenRule temp = rules[i];
+                        rules[i] = rules[j];
+                        rules[j] = temp;
                     }
                 }
             }

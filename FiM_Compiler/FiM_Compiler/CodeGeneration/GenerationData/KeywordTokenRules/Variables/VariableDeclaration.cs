@@ -11,43 +11,32 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules
                 TokenType.Keyword, TokenType.Whitespace, TokenType.Name, TokenType.Whitespace, TokenType.Keyword, TokenType.Whitespace, TokenType.Name, TokenType.Punctuation
             };
             variations = null;
-            //variations = new List<TokenType[]>()
+            //variations = new List<TokenType[]>() TODO
             //{
             //    new TokenType[]
             //    {
-            //    TokenType.Keyword, TokenType.Whitespace, TokenType.Name, TokenType.Whitespace, TokenType.Keyword, TokenType.Whitespace, TokenType.Literal
+            //    TokenType.Keyword, TokenType.Whitespace, TokenType.Name, TokenType.Whitespace, TokenType.Keyword, TokenType.Whitespace, TokenType.Literal, TokenType.Punctuation
             //    }
             //};
             CheckVariations();
         }
 
-        string[] secondKeyword =
-        {
-            "is", "was", "has", "had", "like", "likes", "liked"
-        };
-
-        bool IsSecond(string input)
-        {
-            foreach (var cur in secondKeyword)
-                if (input == cur)
-                    return true;
-            return false;
-        }
-
-        public override bool IsStackMatch(ref List<Token> stack)
+        public override bool IsStackMatch(List<Token> stack)
         {
             if (DefaultStackCheck(stack, rule))
             {
-                if (stack[stack.Count - 8].Value == "Did you know that" && IsSecond(stack[stack.Count - 4].Value) && stack[stack.Count - 1].Value == "?")
+                if (KeywordsDictionary.IsKeyword(KeywordType.VariableDeclaration, stack[stack.Count - 8].Value) &&
+                    KeywordsDictionary.IsKeyword(KeywordType.VariableDeclarationSecond, stack[stack.Count - 4].Value) &&
+                    stack[stack.Count - 1].Value == "?")
                 {
-                    PerformRuleTransform(ref stack);
+                    PerformRuleTransform(stack);
                     return true;
                 }
             }
             return false;
         }
 
-        protected override void PerformRuleTransform(ref List<Token> stack)
+        protected override void PerformRuleTransform(List<Token> stack)
         {
             List<Token> childsInput = new List<Token>();
             childsInput.Add(stack[stack.Count - 6]);

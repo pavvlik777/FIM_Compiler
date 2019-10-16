@@ -119,6 +119,8 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.ErrorsChecks
                         break;
                 }
             }
+
+
             for(int i = currentIndex; i < endIndex; i++)
             {
                 tokens[i].Type = UpdateTokenTypes(tokens[i], _classes, _interfaces, _methods, _variables);
@@ -213,7 +215,7 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.ErrorsChecks
             }
             else
             {
-                //TODO other cases
+                //TODO mb other cases
             }
             return token.Type;
         }

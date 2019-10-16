@@ -10,13 +10,16 @@ using FiM_Compiler.CodeGeneration.Compilers.CSharp.ErrorsChecks;
 
 namespace FiM_Compiler.CodeGeneration.Compilers.CSharp
 {
-    public class Lexer
+    public class Lexer : ILexer
     {
         private string sourceCode;
 
         private List<ILexerAnalysis> initialAnalyses;
-        private List<ILexerErrorCheck> initialErrorChecks;
+        private List<ILexerAnalysis> keywordAnalyses;
         private List<ILexerAnalysis> secondStepAnalyses;
+
+        private List<ILexerErrorCheck> initialErrorChecks;
+        private List<ILexerErrorCheck> keywordErrorChecks;
 
         public (List<Token>, bool) PerformLexicalAnalysis(List<Error> compileErrors)
         {
@@ -25,14 +28,30 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp
             {
                 tokens = cur.PerformLexicalAnalysis(tokens, sourceCode);
             }
-            foreach(var cur in initialErrorChecks)
+            foreach (var cur in initialErrorChecks)
             {
                 if (!cur.PerformChecks(tokens, compileErrors))
                     return (null, false);
             }
+
+            foreach (var cur in keywordAnalyses)
+            {
+                tokens = cur.PerformLexicalAnalysis(tokens, sourceCode);
+            }
+            foreach (var cur in keywordErrorChecks)
+            {
+                if (!cur.PerformChecks(tokens, compileErrors))
+                    return (null, false);
+            }
+
             foreach (var cur in secondStepAnalyses)
             {
                 tokens = cur.PerformLexicalAnalysis(tokens, sourceCode);
+            }
+            foreach (var cur in keywordErrorChecks)
+            {
+                if (!cur.PerformChecks(tokens, compileErrors))
+                    return (null, false);
             }
             return (tokens, true);
         }
@@ -43,16 +62,30 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp
             this.sourceCode = sourceCode;
             initialAnalyses = new List<ILexerAnalysis>()
             {
-                new InitialAnalysis(), new KeywordDeclarationAnalysis()
+                new InitialAnalysis(), new CommentsAnalysis()
             };
-            initialErrorChecks = new List<ILexerErrorCheck>()
+            keywordAnalyses = new List<ILexerAnalysis>()
             {
-                new AmountOfEntryPointsCheck(), new ChecksBounds(), new NamesErrorChecks()
-                //TODO check names for literals and keywords containing
+                new KeywordDeclarationAnalysis()
             };
             secondStepAnalyses = new List<ILexerAnalysis>()
             {
-                //TODO methods calling
+                new VariablesAndMethodsNames(),
+                new MethodsCallingAnalysis(),
+                new ArifmeticAnalysis(),
+                new UserInteractionAnalysis(),
+                //new StatementsAndLoopsAnalysis(),
+                //new VariableModifiersAnalysis(),
+            };
+
+            initialErrorChecks = new List<ILexerErrorCheck>()
+            {
+                new CommentsChecks()
+            };
+            keywordErrorChecks = new List<ILexerErrorCheck>()
+            {
+                new AmountOfEntryPointsCheck(), new ChecksBounds(), new NamesErrorChecks()
+                //TODO check names for containing literals and keywords
             };
         }
         #endregion

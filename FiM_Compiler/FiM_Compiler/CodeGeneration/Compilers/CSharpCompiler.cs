@@ -16,7 +16,7 @@ namespace FiM_Compiler.CodeGeneration.Compilers
         {
             base.Compile(sourceCode, filename);
             InitialPreparing();
-            Lexer lexer = new Lexer(this.sourceCode);
+            ILexer lexer = new Lexer(this.sourceCode);
             bool status = true;
             (tokens, status) = lexer.PerformLexicalAnalysis(compileErrors);
             if(status)

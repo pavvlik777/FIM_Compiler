@@ -8,48 +8,26 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules
         {
             returnType = TokenType.MethodReturn;
             rule = new TokenType[] {
-                TokenType.Keyword, TokenType.SingleSpace, TokenType.Name, TokenType.Punctuation
+                TokenType.Keyword, TokenType.SingleSpace, TokenType.Literal, TokenType.Punctuation
             };
-            variations = new List<TokenType[]>()
-            {
-                new TokenType[]
-                {
-                TokenType.Keyword, TokenType.SingleSpace, TokenType.BoolLiteral, TokenType.Punctuation
-                },
-                new TokenType[]
-                {
-                TokenType.Keyword, TokenType.SingleSpace, TokenType.CharLiteral, TokenType.Punctuation
-                },
-                new TokenType[]
-                {
-                TokenType.Keyword, TokenType.SingleSpace, TokenType.IntLiteral, TokenType.Punctuation
-                },
-                new TokenType[]
-                {
-                TokenType.Keyword, TokenType.SingleSpace, TokenType.NullLiteral, TokenType.Punctuation
-                },
-                new TokenType[]
-                {
-                TokenType.Keyword, TokenType.SingleSpace, TokenType.StringLiteral, TokenType.Punctuation
-                }
-            };
+            variations = null;
             CheckVariations();
         }
 
-        public override bool IsStackMatch(ref List<Token> stack)
+        public override bool IsStackMatch(List<Token> stack)
         {
             if (DefaultStackCheck(stack, rule))
             {
-                if (stack[stack.Count - 4].Value == "Then you get")
+                if (KeywordsDictionary.IsKeyword(KeywordType.MethodReturn, stack[stack.Count - 4].Value))
                 {
-                    PerformRuleTransform(ref stack);
+                    PerformRuleTransform(stack);
                     return true;
                 }
             }
             return false;
         }
 
-        protected override void PerformRuleTransform(ref List<Token> stack)
+        protected override void PerformRuleTransform(List<Token> stack)
         {
             List<Token> childsInput = new List<Token>();
             childsInput.Add(stack[stack.Count - 2]);

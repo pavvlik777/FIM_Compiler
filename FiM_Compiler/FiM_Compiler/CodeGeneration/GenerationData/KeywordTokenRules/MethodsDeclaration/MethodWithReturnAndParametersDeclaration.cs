@@ -14,20 +14,21 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules
             CheckVariations();
         }
 
-        public override bool IsStackMatch(ref List<Token> stack)
+        public override bool IsStackMatch(List<Token> stack)
         {
             if (DefaultStackCheck(stack, rule))
             {
-                if (stack[stack.Count - 10].Value == "I learned" && (stack[stack.Count - 6].Value == "with" || stack[stack.Count - 6].Value == "to get"))
+                if (KeywordsDictionary.IsKeyword(KeywordType.MethodDeclaration, stack[stack.Count - 10].Value) &&
+                    KeywordsDictionary.IsKeyword(KeywordType.MethodDeclarationReturn, stack[stack.Count - 6].Value))
                 {
-                    PerformRuleTransform(ref stack);
+                    PerformRuleTransform(stack);
                     return true;
                 }
             }
             return false;
         }
 
-        protected override void PerformRuleTransform(ref List<Token> stack)
+        protected override void PerformRuleTransform(List<Token> stack)
         {
             List<Token> childsInput = new List<Token>();
             childsInput.Add(stack[stack.Count - 8]);
