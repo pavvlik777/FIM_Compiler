@@ -62,6 +62,7 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp
             this.sourceCode = sourceCode;
             initialAnalyses = new List<ILexerAnalysis>()
             {
+                //TODO check literals before comments
                 new InitialAnalysis(), new CommentsAnalysis()
             };
             keywordAnalyses = new List<ILexerAnalysis>()
@@ -70,12 +71,13 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp
             };
             secondStepAnalyses = new List<ILexerAnalysis>()
             {
-                new VariablesAndMethodsNames(),
+                new VariablesAndMethodsNames(), //TODO get logic from NamesErrorCheck 
+                //возможно не стоит заморачиваться с выводом типов переменных а просто на последнем этапе проверить соответстие типов
                 new MethodsCallingAnalysis(),
                 new ArifmeticAnalysis(),
                 new UserInteractionAnalysis(),
-                //new StatementsAndLoopsAnalysis(),
-                //new VariableModifiersAnalysis(),
+                new StatementsAndLoopsAnalysis(),
+                new VariableModifiersAnalysis(),
             };
 
             initialErrorChecks = new List<ILexerErrorCheck>()

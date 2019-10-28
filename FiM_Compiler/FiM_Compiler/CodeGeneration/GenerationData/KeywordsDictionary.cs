@@ -50,6 +50,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData
             { KeywordType.UserInput, new string[] { "I heard", "I read", "I asked" } },
             { KeywordType.UserPrompt, new string[] { "I asked" } },
             { KeywordType.UserOutput, new string[] { "I said", "I wrote", "I sang", "I thought" } },
+            { KeywordType.VariableRewriting, new string[] { "is now", "are now", "become", "becomes", "now become", "now becomes", "now like", "now likes"} },
 
             { KeywordType.BooleanComparator, new string[] { "is", "was", "has", "had" } },
             { KeywordType.BooleanComparatorNot, new string[] { "is not", "was not", "has not", "had not", "isn't", "wasn't", "hasn't", "hadn't" } },
@@ -57,9 +58,27 @@ namespace FiM_Compiler.CodeGeneration.GenerationData
             { KeywordType.BooleanGreaterThan, new string[] { "more than", "greater than" } },
             
             { KeywordType.BooleanAnd, new string[] { "and" } },
-            { KeywordType.BooleanOr, new string[] { "and" } },
-            { KeywordType.BooleanXor, new string[] { "and" } },
-            { KeywordType.BooleanNot, new string[] { "and" } },
+            { KeywordType.BooleanOr, new string[] { "or" } },
+            { KeywordType.BooleanXor, new string[] { "either" } },
+            { KeywordType.BooleanNot, new string[] { "not" } },
+
+            { KeywordType.IfStartFirst, new string[] { "If", "When" } },
+            { KeywordType.IfStartSecond, new string[] { "then" } },
+            { KeywordType.IfEnd, new string[] { "That's what I would do" } },
+            { KeywordType.IfElse, new string[] { "Otherwise", "Or else" } },
+            { KeywordType.SwitchDeclaration, new string[] { "In regards to" } },
+            { KeywordType.SwitchCaseFirst, new string[] { "On the" } },
+            { KeywordType.SwitchCaseSecond, new string[] { "hoof" } },
+            { KeywordType.SwitchDefaultCase, new string[] { "If all else fails" } },
+            { KeywordType.CycleEnding, new string[] { "That's what I did" } },
+            { KeywordType.WhileStart, new string[] { "Here's what I did while", "As long as" } },
+            { KeywordType.DoWhileStart, new string[] { "Here's what I did" } },
+            { KeywordType.DoWhileEnd, new string[] { "I did this while", "I did this as long as" } },
+            { KeywordType.ForStartFirst, new string[] { "For every" } },
+            { KeywordType.ForStartSecond, new string[] { "from" } },
+            { KeywordType.ForStartThird, new string[] { "to" } },
+            { KeywordType.ForeachStartFirst, new string[] { "For every" } },
+            { KeywordType.ForeachStartSecond, new string[] { "in" } },
         };
 
         private static Dictionary<KeywordType, string[]> variableTypesDictionary = new Dictionary<KeywordType, string[]>()

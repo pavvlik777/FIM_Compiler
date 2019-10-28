@@ -12,7 +12,9 @@
         MethodReturn, MethodCalling, SeparateMethodCalling, MethodCallingParameters, MethodCallingParametersExtra,
         ArifmeticExpression, ArifmeticAddition, ArifmeticSubstraction, ArifmeticMultiplication, ArifmeticDivision, ArifmeticIncrement, ArifmeticDecrement,
         BooleanExpression, IsEqual, IsNotEqual, LessThan, GreaterThan, LessThanOrEqual, GreaterThanOrEqual,
-        UserInput, UserPrompt, UserOutput,
+        UserInput, UserPrompt, UserOutput, VariableRewriting,
         BooleanAnd, BooleanOr, BooleanXor, BooleanNot,
+        IfStart, IfEnd, IfElse, SwitchDeclaration, SwitchCase, SwitchDefaultCase, CycleEnding,
+        WhileStart, DoWhileStart, DoWhileEnd, ForStart, ForeachStart,
     }
 }

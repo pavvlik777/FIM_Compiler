@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules.BooleanOperators
+namespace FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules.VariableModifiers
 {
-    public class BooleanXor : TokenRule
+    public class VariableRewriting : TokenRule //TODO
     {
-        public BooleanXor()
+        public VariableRewriting()
         {
-            returnType = TokenType.BooleanXor;
+            returnType = TokenType.VariableRewriting;
             rule = new TokenType[] {
-                TokenType.Keyword, TokenType.Whitespace, TokenType.BoolValue, TokenType.Whitespace, TokenType.Keyword, TokenType.Whitespace, TokenType.BoolValue
+                TokenType.Keyword, TokenType.Whitespace, TokenType.IntValue, TokenType.Whitespace, TokenType.Keyword, TokenType.Whitespace, TokenType.IntValue
             };
             variations = null;
             CheckVariations();
@@ -22,8 +22,8 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules.BooleanOp
         {
             if (DefaultStackCheck(stack, rule))
             {
-                if (KeywordsDictionary.IsKeyword(KeywordType.BooleanXor, stack[stack.Count - 7].Value)
-                    && KeywordsDictionary.IsKeyword(KeywordType.BooleanOr, stack[stack.Count - 3].Value))
+                if (KeywordsDictionary.IsKeyword(KeywordType.ArifmeticAdditionPrefixFirst, stack[stack.Count - 7].Value)
+                    && KeywordsDictionary.IsKeyword(KeywordType.ArifmeticAdditionPrefixSecond, stack[stack.Count - 3].Value))
                 {
                     PerformRuleTransform(stack);
                     return true;

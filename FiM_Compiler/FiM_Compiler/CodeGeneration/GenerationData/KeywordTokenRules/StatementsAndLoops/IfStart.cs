@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules.BooleanOperators
+namespace FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules.StatementsAndLoops
 {
-    public class BooleanXor : TokenRule
+    public class IfStart : TokenRule
     {
-        public BooleanXor()
+        public IfStart()
         {
-            returnType = TokenType.BooleanXor;
+            returnType = TokenType.IfStart;
             rule = new TokenType[] {
-                TokenType.Keyword, TokenType.Whitespace, TokenType.BoolValue, TokenType.Whitespace, TokenType.Keyword, TokenType.Whitespace, TokenType.BoolValue
+                TokenType.Keyword, TokenType.Whitespace, TokenType.BoolValue, TokenType.Whitespace, TokenType.Keyword, TokenType.Punctuation
             };
             variations = null;
             CheckVariations();
@@ -22,8 +22,9 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules.BooleanOp
         {
             if (DefaultStackCheck(stack, rule))
             {
-                if (KeywordsDictionary.IsKeyword(KeywordType.BooleanXor, stack[stack.Count - 7].Value)
-                    && KeywordsDictionary.IsKeyword(KeywordType.BooleanOr, stack[stack.Count - 3].Value))
+                if (KeywordsDictionary.IsKeyword(KeywordType.IfStartFirst, stack[stack.Count - 6].Value)
+                    && KeywordsDictionary.IsKeyword(KeywordType.IfStartSecond, stack[stack.Count - 2].Value)
+                    && stack[stack.Count - 1].Value == ":")
                 {
                     PerformRuleTransform(stack);
                     return true;
@@ -35,8 +36,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules.BooleanOp
         protected override void PerformRuleTransform(List<Token> stack)
         {
             List<Token> childsInput = new List<Token>();
-            childsInput.Add(stack[stack.Count - 5]);
-            childsInput.Add(stack[stack.Count - 1]);
+            childsInput.Add(stack[stack.Count - 4]);
             ConvertTokens(ref stack, rule.Length, returnType, childsInput);
         }
     }

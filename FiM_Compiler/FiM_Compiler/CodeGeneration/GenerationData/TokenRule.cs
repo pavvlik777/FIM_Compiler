@@ -71,8 +71,8 @@ namespace FiM_Compiler.CodeGeneration.GenerationData
                     else if(checks[j] == TokenType.BoolValue)
                     {
                         if(stack[stack.Count - i].Type != TokenType.BoolLiteral && stack[stack.Count - i].Type != TokenType.BooleanExpression
+                            && stack[stack.Count - i].Type != TokenType.VariableName && stack[stack.Count - i].Type != TokenType.MethodCalling)
                             //TODO variables and methods
-                            )
                         {
                             output = false;
                             break;
@@ -81,8 +81,8 @@ namespace FiM_Compiler.CodeGeneration.GenerationData
                     else if (checks[j] == TokenType.IntValue)
                     {
                         if (stack[stack.Count - i].Type != TokenType.IntLiteral && stack[stack.Count - i].Type != TokenType.ArifmeticExpression
-                            //TODO variables and methods
-                            )
+                            && stack[stack.Count - i].Type != TokenType.VariableName && stack[stack.Count - i].Type != TokenType.MethodCalling)
+                        //TODO variables and methods
                         {
                             output = false;
                             break;

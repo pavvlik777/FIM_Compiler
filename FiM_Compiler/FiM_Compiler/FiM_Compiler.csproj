@@ -49,7 +49,9 @@
     <Compile Include="CodeGeneration\Compilers\CSharpCompiler.cs" />
     <Compile Include="CodeGeneration\Compilers\CSharp\ErrorsChecks\AmountOfEntryPointsCheck.cs" />
     <Compile Include="CodeGeneration\Compilers\CSharp\ErrorsChecks\ChecksBounds.cs" />
+    <Compile Include="CodeGeneration\Compilers\CSharp\LexerAnalysises\VariableModifiersAnalysis.cs" />
     <Compile Include="CodeGeneration\Compilers\CSharp\LexerAnalysises\ArifmeticAnalysis.cs" />
+    <Compile Include="CodeGeneration\Compilers\CSharp\LexerAnalysises\StatementsAndLoopsAnalysis.cs" />
     <Compile Include="CodeGeneration\Compilers\CSharp\LexerAnalysises\VariablesAndMethodsNames.cs" />
     <Compile Include="CodeGeneration\Compilers\CSharp\LexerAnalysises\UserInteractionAnalysis.cs" />
     <Compile Include="CodeGeneration\Compilers\Interfaces\ILexerErrorCheck.cs" />
@@ -86,9 +88,22 @@
     <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\BooleanOperators\BooleanXor.cs" />
     <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\BooleanOperators\BooleanOr.cs" />
     <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\BooleanOperators\BooleanAnd.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\StatementsAndLoops\DoWhileEnd.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\StatementsAndLoops\DoWhileStart.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\StatementsAndLoops\IfElse.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\StatementsAndLoops\ForeachStart.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\StatementsAndLoops\ForStart.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\StatementsAndLoops\IfEnd.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\StatementsAndLoops\IfStart.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\StatementsAndLoops\SwitchCase.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\StatementsAndLoops\SwitchDeclaration.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\StatementsAndLoops\SwitchDefaultCase.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\StatementsAndLoops\CycleEnding.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\StatementsAndLoops\WhileStart.cs" />
     <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\UserInteractions\Input.cs" />
     <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\UserInteractions\Output.cs" />
     <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\UserInteractions\Prompt.cs" />
+    <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\VariableModifiers\VariableRewriting.cs" />
     <Compile Include="CodeGeneration\GenerationData\KeywordType.cs" />
     <Compile Include="CodeGeneration\GenerationData\InitialTokenRules\CharToNameRule.cs" />
     <Compile Include="CodeGeneration\GenerationData\InitialTokenRules\NameMergeRule.cs" />
@@ -137,8 +152,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="CodeGeneration\GenerationData\KeywordTokenRules\StatementsAndLoops\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

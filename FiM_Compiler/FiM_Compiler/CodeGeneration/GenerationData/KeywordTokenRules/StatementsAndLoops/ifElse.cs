@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules.BooleanOperators
+namespace FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules.StatementsAndLoops
 {
-    public class BooleanNot : TokenRule
+    public class IfElse : TokenRule
     {
-        public BooleanNot()
+        public IfElse()
         {
-            returnType = TokenType.BooleanNot;
+            returnType = TokenType.IfElse;
             rule = new TokenType[] {
-                TokenType.Keyword, TokenType.Whitespace, TokenType.BoolValue
+                TokenType.Keyword, TokenType.Punctuation
             };
             variations = null;
             CheckVariations();
@@ -22,7 +22,8 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules.BooleanOp
         {
             if (DefaultStackCheck(stack, rule))
             {
-                if (KeywordsDictionary.IsKeyword(KeywordType.BooleanNot, stack[stack.Count - 3].Value))
+                if (KeywordsDictionary.IsKeyword(KeywordType.IfElse, stack[stack.Count - 2].Value) &&
+                    stack[stack.Count - 1].Value == ".")
                 {
                     PerformRuleTransform(stack);
                     return true;
@@ -33,9 +34,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules.BooleanOp
 
         protected override void PerformRuleTransform(List<Token> stack)
         {
-            List<Token> childsInput = new List<Token>();
-            childsInput.Add(stack[stack.Count - 1]);
-            ConvertTokens(ref stack, rule.Length, returnType, childsInput);
+            ConvertTokens(ref stack, rule.Length, returnType);
         }
     }
 }

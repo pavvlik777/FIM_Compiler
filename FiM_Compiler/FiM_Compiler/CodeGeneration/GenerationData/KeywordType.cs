@@ -18,6 +18,11 @@
         BooleanAnd, BooleanOr, BooleanXor, BooleanNot,
 
         UserInput, UserPrompt, UserOutput,
+        VariableRewriting,
+
+        IfStartFirst, IfStartSecond, IfEnd, IfElse,
+        SwitchDeclaration, SwitchCaseFirst, SwitchCaseSecond, SwitchDefaultCase, CycleEnding, 
+        WhileStart, DoWhileStart, DoWhileEnd, ForStartFirst, ForStartSecond, ForStartThird, ForeachStartFirst, ForeachStartSecond,
 
         Int, Char, String, Bool, IntArray, CharArray, StringArray, BoolArray
     }
