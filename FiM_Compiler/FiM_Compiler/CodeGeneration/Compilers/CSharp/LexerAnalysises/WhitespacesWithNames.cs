@@ -1,15 +1,16 @@
-﻿using System;
+﻿using FiM_Compiler.CodeGeneration.GenerationData;
+using FiM_Compiler.CodeGeneration.GenerationData.InitialTokenRules;
+using System;
 using System.Collections.Generic;
-using FiM_Compiler.CodeGeneration.GenerationData;
-using FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules.UserInteractions;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
 {
-    public class VariablesAndMethodsNames : ILexerAnalysis
+    public class WhitespacesWithNames : ILexerAnalysis
     {
-        //TODO
-        private List<TokenRule> rules;
-
+        List<TokenRule> mergeNamesRules;
         public List<Token> PerformLexicalAnalysis(List<Token> tokens, string sourceCode)
         {
             List<Token> initStack = new List<Token>(tokens);
@@ -17,7 +18,7 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
             int i = 0;
             while (i < initStack.Count)
             {
-                if (!CheckStackForPatterns(stack, rules))
+                if (!CheckStackForPatterns(stack, mergeNamesRules))
                 {
                     stack.Add(initStack[i]);
                     i++;
@@ -39,29 +40,12 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
         }
 
         #region Constructor
-        public VariablesAndMethodsNames()
+        public WhitespacesWithNames()
         {
-            rules = new List<TokenRule>()
+            mergeNamesRules = new List<TokenRule>()
             {
-
+                new NameWithWhitespaceMergeRule()
             };
-            Sort(rules);
-        }
-
-        void Sort(List<TokenRule> rules)
-        {
-            for (int i = 0; i < rules.Count - 1; i++) // Comment this if need specific order
-            {
-                for (int j = i + 1; j < rules.Count; j++)
-                {
-                    if (rules[i].Amount < rules[j].Amount)
-                    {
-                        TokenRule temp = rules[i];
-                        rules[i] = rules[j];
-                        rules[j] = temp;
-                    }
-                }
-            }
         }
         #endregion
     }

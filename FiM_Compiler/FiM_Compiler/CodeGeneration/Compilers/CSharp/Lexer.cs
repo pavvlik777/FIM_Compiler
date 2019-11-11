@@ -17,9 +17,11 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp
         private List<ILexerAnalysis> initialAnalyses;
         private List<ILexerAnalysis> keywordAnalyses;
         private List<ILexerAnalysis> secondStepAnalyses;
+        private List<ILexerAnalysis> thirdStepAnalyses;
 
         private List<ILexerErrorCheck> initialErrorChecks;
         private List<ILexerErrorCheck> keywordErrorChecks;
+        private List<ILexerErrorCheck> secondStepErrorChecks;
 
         public (List<Token>, bool) PerformLexicalAnalysis(List<Error> compileErrors)
         {
@@ -48,10 +50,15 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp
             {
                 tokens = cur.PerformLexicalAnalysis(tokens, sourceCode);
             }
-            foreach (var cur in keywordErrorChecks)
+            foreach (var cur in secondStepErrorChecks)
             {
                 if (!cur.PerformChecks(tokens, compileErrors))
                     return (null, false);
+            }
+
+            foreach (var cur in thirdStepAnalyses)
+            {
+                tokens = cur.PerformLexicalAnalysis(tokens, sourceCode);
             }
             return (tokens, true);
         }
@@ -62,8 +69,7 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp
             this.sourceCode = sourceCode;
             initialAnalyses = new List<ILexerAnalysis>()
             {
-                //TODO check literals before comments
-                new InitialAnalysis(), new CommentsAnalysis()
+                new InitialAnalysis(), new CommentsAnalysis(), new WhitespacesWithNames()
             };
             keywordAnalyses = new List<ILexerAnalysis>()
             {
@@ -71,12 +77,13 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp
             };
             secondStepAnalyses = new List<ILexerAnalysis>()
             {
-                new VariablesAndMethodsNames(), //TODO get logic from NamesErrorCheck 
-                //возможно не стоит заморачиваться с выводом типов переменных а просто на последнем этапе проверить соответстие типов
                 new MethodsCallingAnalysis(),
                 new ArifmeticAnalysis(),
                 new UserInteractionAnalysis(),
                 new StatementsAndLoopsAnalysis(),
+            };
+            thirdStepAnalyses = new List<ILexerAnalysis>()
+            {
                 new VariableModifiersAnalysis(),
             };
 
@@ -86,8 +93,12 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp
             };
             keywordErrorChecks = new List<ILexerErrorCheck>()
             {
-                new AmountOfEntryPointsCheck(), new ChecksBounds(), new NamesErrorChecks()
+                new AmountOfEntryPointsCheck(), new ChecksBounds(), new NamesErrorChecks(),
                 //TODO check names for containing literals and keywords
+            };
+            secondStepErrorChecks = new List<ILexerErrorCheck>()
+            {
+                new ExtendedNamesErrorChecks(),
             };
         }
         #endregion

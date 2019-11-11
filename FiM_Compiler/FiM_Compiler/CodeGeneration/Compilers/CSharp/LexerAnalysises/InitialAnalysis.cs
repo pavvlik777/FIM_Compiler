@@ -12,7 +12,6 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
         char[] punctuation = { ':', '.', '!', ',', '?' };
 
         List<TokenRule> rules;
-        List<TokenRule> mergeNamesRules;
 
         public List<Token> PerformLexicalAnalysis(List<Token> tokens, string sourceCode)
         {
@@ -45,18 +44,6 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
             while (i < initStack.Count)
             {
                 if (!CheckStackForVariable(ref stack))
-                {
-                    stack.Add(initStack[i]);
-                    i++;
-                }
-            }
-            initStack.Clear();
-            initStack = new List<Token>(stack);
-            stack.Clear();
-            i = 0;
-            while (i < initStack.Count)
-            {
-                if (!CheckStackForPatterns(ref stack, mergeNamesRules))
                 {
                     stack.Add(initStack[i]);
                     i++;
@@ -238,10 +225,6 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
             rules = new List<TokenRule>()
             {
                 new CharToNameRule(), new NameMergeRule(), new WhiteSpaceMergeRule()
-            };
-            mergeNamesRules = new List<TokenRule>()
-            {
-                new NameWithWhitespaceMergeRule()
             };
             for (int i = 0; i < rules.Count - 1; i++) // Comment this if need specific order
             {

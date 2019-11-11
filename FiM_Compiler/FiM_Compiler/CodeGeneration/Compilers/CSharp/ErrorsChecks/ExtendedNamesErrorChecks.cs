@@ -5,7 +5,7 @@ using FiM_Compiler.CodeGeneration.GenerationData;
 
 namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.ErrorsChecks
 {
-    public class NamesErrorChecks : ILexerErrorCheck
+    public class ExtendedNamesErrorChecks : ILexerErrorCheck
     {
         private enum LevelType
         {
@@ -47,6 +47,20 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.ErrorsChecks
             List<string> _interfaces = new List<string>(interfaces);
             List<string> _methods = new List<string>(methods);
             List<string> _variables = new List<string>(variables);
+            if(parent == LevelType.Cycle)
+            {
+                if (tokens[currentIndex - 1].Childs.Count > 2)
+                {
+                    _variables.Add(tokens[currentIndex - 1].Childs[2].Value);
+                    for (int j = currentIndex - 1; j < endIndex; j++)
+                    {
+                        tokens[j].Type = UpdateVariblesTokenTypes(tokens[j], _variables);
+                        if (tokens[j].Childs == null) continue;
+                        foreach (var child in tokens[j].Childs)
+                            child.Type = UpdateVariblesTokenTypes(child, _variables);
+                    }
+                }
+            }
             if(parent == LevelType.Method)
             {
                 if (tokens[currentIndex - 1].Childs.Count > 2)
@@ -59,6 +73,14 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.ErrorsChecks
             {
                 switch(tokens[i].Type)
                 {
+                    case TokenType.ForStartWithDeclaring:
+                        BoundSkip(tokens, new TokenType[] { TokenType.ForStartWithDeclaring, TokenType.ForeachStartWithDeclaring, TokenType.SwitchDeclaration },
+                            new TokenType[] { TokenType.CycleEnding }, ref i, ref endIndex);
+                        break;
+                    case TokenType.ForeachStartWithDeclaring:
+                        BoundSkip(tokens, new TokenType[] { TokenType.ForStartWithDeclaring, TokenType.ForeachStartWithDeclaring, TokenType.SwitchDeclaration },
+                            new TokenType[] { TokenType.CycleEnding }, ref i, ref endIndex);
+                        break;
                     case TokenType.ClassDeclaration:
                         _classes.Add(tokens[i].Childs[1].Value);
                         BoundSkip(tokens, new TokenType[] { TokenType.ClassDeclaration, TokenType.InterfaceDeclaration }, new TokenType[] { TokenType.ClassEndDeclaration }, ref i, ref endIndex);
@@ -98,6 +120,22 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.ErrorsChecks
             {
                 switch (tokens[i].Type)
                 {
+                    case TokenType.ForStartWithDeclaring:
+                        start = i + 1;
+                        end = BoundSkip(tokens, new TokenType[] { TokenType.ForStartWithDeclaring, TokenType.ForeachStartWithDeclaring, TokenType.SwitchDeclaration },
+                            new TokenType[] { TokenType.CycleEnding }, ref i, ref endIndex);
+                        result = Check(tokens, LevelType.Cycle, compileErrors, ref start, ref end, _classes, _interfaces, _methods, _variables);
+                        if (!result.Item1)
+                            return result;
+                        break;
+                    case TokenType.ForeachStartWithDeclaring:
+                        start = i + 1;
+                        end = BoundSkip(tokens, new TokenType[] { TokenType.ForStartWithDeclaring, TokenType.ForeachStartWithDeclaring, TokenType.SwitchDeclaration },
+                            new TokenType[] { TokenType.CycleEnding }, ref i, ref endIndex);
+                        result = Check(tokens, LevelType.Cycle, compileErrors, ref start, ref end, _classes, _interfaces, _methods, _variables);
+                        if (!result.Item1)
+                            return result;
+                        break;
                     case TokenType.ClassDeclaration:
                         start = i + 1;
                         end = BoundSkip(tokens, new TokenType[] { TokenType.ClassDeclaration, TokenType.InterfaceDeclaration }, new TokenType[] { TokenType.ClassEndDeclaration }, ref i, ref endIndex);
@@ -226,6 +264,7 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.ErrorsChecks
                 if (classes.Any(x => x == token.Value)) return TokenType.ClassName;
                 if (interfaces.Any(x => x == token.Value)) return TokenType.InterfaceName;
                 if (methods.Any(x => x == token.Value)) return TokenType.MethodName;
+                //if (variables.Any(x => x == token.Value)) return TokenType.VariableName;
             }
             else
             {

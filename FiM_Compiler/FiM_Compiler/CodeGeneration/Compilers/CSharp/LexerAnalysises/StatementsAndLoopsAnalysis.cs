@@ -46,7 +46,8 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
                 new IfStart(), new IfEnd(), new IfElse(),
                 new SwitchDeclaration(), new SwitchCase(), new SwitchDefaultCase(), new CycleEnding(),
                 new WhileStart(),
-                new ForStart(), new ForeachStart(),
+                new ForStart(), new ForStartWithDeclaring(),
+                new ForeachStart(), new ForeachStartWithDeclaring(),
             };
             Sort(rules);
         }

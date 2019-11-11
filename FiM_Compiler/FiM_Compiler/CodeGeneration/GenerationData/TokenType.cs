@@ -15,6 +15,6 @@
         UserInput, UserPrompt, UserOutput, VariableRewriting,
         BooleanAnd, BooleanOr, BooleanXor, BooleanNot,
         IfStart, IfEnd, IfElse, SwitchDeclaration, SwitchCase, SwitchDefaultCase, CycleEnding,
-        WhileStart, DoWhileStart, DoWhileEnd, ForStart, ForeachStart,
+        WhileStart, DoWhileStart, DoWhileEnd, ForStart, ForStartWithDeclaring, ForeachStart, ForeachStartWithDeclaring
     }
 }

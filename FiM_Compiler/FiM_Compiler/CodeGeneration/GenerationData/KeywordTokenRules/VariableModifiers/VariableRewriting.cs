@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules.VariableModifiers
 {
-    public class VariableRewriting : TokenRule //TODO
+    public class VariableRewriting : TokenRule
     {
         public VariableRewriting()
         {
             returnType = TokenType.VariableRewriting;
             rule = new TokenType[] {
-                TokenType.Keyword, TokenType.Whitespace, TokenType.IntValue, TokenType.Whitespace, TokenType.Keyword, TokenType.Whitespace, TokenType.IntValue
+                TokenType.VariableName, TokenType.Whitespace, TokenType.Keyword, TokenType.Whitespace, TokenType.Value, TokenType.Punctuation
             };
             variations = null;
             CheckVariations();
@@ -22,8 +22,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules.VariableM
         {
             if (DefaultStackCheck(stack, rule))
             {
-                if (KeywordsDictionary.IsKeyword(KeywordType.ArifmeticAdditionPrefixFirst, stack[stack.Count - 7].Value)
-                    && KeywordsDictionary.IsKeyword(KeywordType.ArifmeticAdditionPrefixSecond, stack[stack.Count - 3].Value))
+                if (KeywordsDictionary.IsKeyword(KeywordType.VariableRewriting, stack[stack.Count - 4].Value))
                 {
                     PerformRuleTransform(stack);
                     return true;
@@ -35,8 +34,8 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules.VariableM
         protected override void PerformRuleTransform(List<Token> stack)
         {
             List<Token> childsInput = new List<Token>();
-            childsInput.Add(stack[stack.Count - 5]);
-            childsInput.Add(stack[stack.Count - 1]);
+            childsInput.Add(stack[stack.Count - 6]);
+            childsInput.Add(stack[stack.Count - 2]);
             ConvertTokens(ref stack, rule.Length, returnType, childsInput);
         }
     }

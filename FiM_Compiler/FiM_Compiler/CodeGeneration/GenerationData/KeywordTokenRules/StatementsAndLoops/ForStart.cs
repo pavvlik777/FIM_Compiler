@@ -8,7 +8,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules.Statement
 {
     public class ForStart : TokenRule
     {
-        public ForStart() //TODO mb add feature to declare variable in for/foreach start 
+        public ForStart() 
         {
             returnType = TokenType.ForStart;
             rule = new TokenType[] {
