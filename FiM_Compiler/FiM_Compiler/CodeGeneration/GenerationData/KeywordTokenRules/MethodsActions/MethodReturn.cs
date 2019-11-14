@@ -8,7 +8,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules
         {
             returnType = TokenType.MethodReturn;
             rule = new TokenType[] {
-                TokenType.Keyword, TokenType.SingleSpace, TokenType.Literal, TokenType.Punctuation
+                TokenType.Keyword, TokenType.SingleSpace, TokenType.Value, TokenType.Punctuation
             };
             variations = null;
             CheckVariations();

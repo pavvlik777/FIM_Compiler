@@ -35,6 +35,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules.Statement
         protected override void PerformRuleTransform(List<Token> stack)
         {
             ConvertTokens(ref stack, rule.Length, returnType);
+            stack.Insert(stack.Count - 1, new Token(TokenType.SwitchCaseEnd));
         }
     }
 }

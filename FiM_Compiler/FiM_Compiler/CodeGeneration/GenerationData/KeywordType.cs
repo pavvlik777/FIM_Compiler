@@ -20,7 +20,7 @@
         UserInput, UserPrompt, UserOutput,
         VariableRewriting,
 
-        IfStartFirst, IfStartSecond, IfEnd, IfElse,
+        IfStartFirst, IfStartSecond, IfEnd, IfElse, ElifStart,
         SwitchDeclaration, SwitchCaseFirst, SwitchCaseSecond, SwitchDefaultCase, CycleEnding, 
         WhileStart, DoWhileStart, DoWhileEnd, ForStartFirst, ForStartSecond, ForStartThird, ForeachStartFirst, ForeachStartSecond,
 

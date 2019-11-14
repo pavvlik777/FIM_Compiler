@@ -16,20 +16,23 @@ namespace FiM_Compiler.CodeGeneration.Compilers
         {
             base.Compile(sourceCode, filename);
             InitialPreparing();
-            ILexer lexer = new Lexer(this.sourceCode);
-            bool status = true;
-            (tokens, status) = lexer.PerformLexicalAnalysis(compileErrors);
-            if(status)
+            ILexer lexer = new Lexer();
+            tokens = lexer.PerformLexicalAnalysis(this.sourceCode);
+
+            //foreach (var cur in tokens)
+            //    if (cur.Type != TokenType.Whitespace && cur.Type != TokenType.Newline)
+            //        Console.WriteLine(cur.ToString());
+
+            Parser parser = new Parser();
+            syntaxTreeHead = parser.GenerateSyntaxTree(tokens, compileErrors);
+            if (syntaxTreeHead != null)
             {
-                foreach (var cur in tokens)
-                    Console.WriteLine(cur.ToString());
+                if(parser.PerformTypesCheck(syntaxTreeHead, compileErrors))
+                {
+                    string output = parser.GenerateCode(syntaxTreeHead);
+                    PrintResult(output);
+                }
             }
-            //Parser parser = new Parser(tokens, compileErrors);
-            //if (parser.GenerateSyntaxTree(ref syntaxTreeHead))
-            //{
-            //    string output = parser.GenerateCSharpCode(syntaxTreeHead);
-            //    PrintResult(output);
-            //}
         }
 
         void InitialPreparing()

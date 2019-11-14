@@ -10,6 +10,29 @@ namespace FiM_Compiler.CodeGeneration.GenerationData
     {
         public TokenType Type { get; set; }
         public string Value { get; set; }
+
+        public string VariableTypeValue
+        {
+            get
+            {
+                try
+                {
+                    return KeywordsDictionary.GetVariableType(Value);
+                }
+                catch(Exception)
+                {
+                    return Value;
+                }
+            }
+        }
+
+        public string ValueWithoutWhitespaces 
+        { 
+            get
+            {
+                return Value.Replace(" ", "");
+            }
+        }
         public List<Token> Childs { get; set; }
 
         public Token(TokenType type, string value = "", List<Token> childs = null)

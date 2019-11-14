@@ -8,7 +8,6 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
     public class CommentsAnalysis : ILexerAnalysis
     {
         List<TokenRule> initialRules;
-
         private enum Status
         { Nothing, Inline, Multiline }
 

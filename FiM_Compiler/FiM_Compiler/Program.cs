@@ -17,6 +17,8 @@ namespace FiM_Compiler
         static void Main()
         {
             Program program = new Program();
+            //Console.WriteLine("Enter filename with extension");
+            //program.sourceName = Console.ReadLine();
             bool loading = program.LoadFile();
             if (loading)
             {

@@ -47,7 +47,6 @@ namespace FiM_Compiler.CodeGeneration.GenerationData
                             break;
                         }
                     }
-                //TODO check literals
                     else if (checks[j] == TokenType.Literal)
                     {
                         if (stack[stack.Count - i].Type != TokenType.BoolLiteral && stack[stack.Count - i].Type != TokenType.CharLiteral && stack[stack.Count - i].Type != TokenType.IntLiteral
@@ -60,9 +59,9 @@ namespace FiM_Compiler.CodeGeneration.GenerationData
                     else if(checks[j] == TokenType.Value)
                     {
                         if(stack[stack.Count - i].Type != TokenType.BoolLiteral && stack[stack.Count - i].Type != TokenType.CharLiteral && stack[stack.Count - i].Type != TokenType.IntLiteral
-                             && stack[stack.Count - i].Type != TokenType.NullLiteral && stack[stack.Count - i].Type != TokenType.StringLiteral /*&& stack[stack.Count - i].Type != TokenType.Name*/
-                             && stack[stack.Count - i].Type != TokenType.MethodCalling && stack[stack.Count - i].Type != TokenType.VariableName
-                             && stack[stack.Count - i].Type != TokenType.ArifmeticExpression && stack[stack.Count - i].Type != TokenType.BooleanExpression)
+                             && stack[stack.Count - i].Type != TokenType.NullLiteral && stack[stack.Count - i].Type != TokenType.StringLiteral 
+                             && stack[stack.Count - i].Type != TokenType.ArifmeticExpression && stack[stack.Count - i].Type != TokenType.BooleanExpression
+                             && stack[stack.Count - i].Type != TokenType.MethodCalling && stack[stack.Count - i].Type != TokenType.VariableName)
                         {
                             output = false;
                             break;

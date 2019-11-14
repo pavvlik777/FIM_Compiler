@@ -12,7 +12,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules.UserInter
         {
             returnType = TokenType.UserInput;
             rule = new TokenType[] {
-                TokenType.Keyword, TokenType.Whitespace, TokenType.Value, TokenType.Punctuation
+                TokenType.Keyword, TokenType.Whitespace, TokenType.VariableName, TokenType.Punctuation
             };
             variations = null;
             CheckVariations();

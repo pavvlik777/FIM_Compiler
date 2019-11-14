@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using FiM_Compiler.CodeGeneration.GenerationData;
 using FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules;
+using FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules.StatementsAndLoops;
 
 namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
 {
@@ -56,7 +57,9 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
                 new MethodParameters(), new MethodParametersExtra(), new MethodParametersMerge(),
                 new EndMethodDeclaration(),
 
-                new VariableDeclaration(), new VariableDeclarationAndAssignValue(), new VariableDeclarationWithType()
+                new VariableDeclaration(), new VariableDeclarationAndAssignValue(), new VariableDeclarationWithType(),
+                new ForStartWithDeclaring(),
+                new ForeachStartWithDeclaring(),
             };
             Sort(declarationRules);
         }

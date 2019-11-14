@@ -159,7 +159,7 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.ErrorsChecks
                         tokens[currentIndex - 1].Childs[j].Type = TokenType.ClassExtendsName;
                 }
             }
-            return (true, LevelType.EOF); ;
+            return (true, LevelType.EOF);
         }
 
         int BoundSkip(List<Token> tokens, TokenType[] start, TokenType[] end, ref int currentIndex, ref int endIndex)
@@ -207,7 +207,7 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.ErrorsChecks
         {
             if (token.Type == TokenType.Name)
             {
-                if (variables.Any(x => x == token.Value)) return TokenType.VariableName;
+                //if (variables.Any(x => x == token.Value)) return TokenType.VariableName;
             }
             return token.Type;
         }

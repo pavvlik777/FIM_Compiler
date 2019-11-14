@@ -22,7 +22,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules.Statement
         {
             if (DefaultStackCheck(stack, rule))
             {
-                if (KeywordsDictionary.IsKeyword(KeywordType.SwitchDeclaration, stack[stack.Count - 3].Value)
+                if (KeywordsDictionary.IsKeyword(KeywordType.SwitchDeclaration, stack[stack.Count - 4].Value)
                     && stack[stack.Count - 1].Value == ":")
                 {
                     PerformRuleTransform(stack);

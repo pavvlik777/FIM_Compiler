@@ -7,7 +7,6 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
 {
     public class StatementsAndLoopsAnalysis : ILexerAnalysis
     {
-        //TODO
         private List<TokenRule> rules;
 
         public List<Token> PerformLexicalAnalysis(List<Token> tokens, string sourceCode)
@@ -43,11 +42,11 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
         {
             rules = new List<TokenRule>()
             {
-                new IfStart(), new IfEnd(), new IfElse(),
+                new IfStart(), new IfEnd(), new IfElse(), new Elif(),
                 new SwitchDeclaration(), new SwitchCase(), new SwitchDefaultCase(), new CycleEnding(),
-                new WhileStart(),
-                new ForStart(), new ForStartWithDeclaring(),
-                new ForeachStart(), new ForeachStartWithDeclaring(),
+                new WhileStart(), new DoWhileStart(), new DoWhileEnd(),
+                new ForStart(),
+                new ForeachStart(),
             };
             Sort(rules);
         }

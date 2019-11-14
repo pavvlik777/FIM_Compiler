@@ -23,7 +23,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules.Statement
             if (DefaultStackCheck(stack, rule))
             {
                 if (KeywordsDictionary.IsKeyword(KeywordType.IfElse, stack[stack.Count - 2].Value) &&
-                    stack[stack.Count - 1].Value == ".")
+                    stack[stack.Count - 1].Value == ":")
                 {
                     PerformRuleTransform(stack);
                     return true;
@@ -35,6 +35,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules.Statement
         protected override void PerformRuleTransform(List<Token> stack)
         {
             ConvertTokens(ref stack, rule.Length, returnType);
+            stack.Insert(stack.Count - 1, new Token(TokenType.IfEnd));
         }
     }
 }

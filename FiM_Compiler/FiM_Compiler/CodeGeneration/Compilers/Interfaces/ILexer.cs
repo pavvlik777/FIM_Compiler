@@ -5,6 +5,6 @@ namespace FiM_Compiler.CodeGeneration.Compilers
 {
     public interface ILexer
     {
-        (List<Token>, bool) PerformLexicalAnalysis(List<Error> compileErrors);
+        List<Token> PerformLexicalAnalysis(string sourceCode);
     }
 }

@@ -50,7 +50,7 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
                 new AdditionInfix(), new AdditionPrefix(), new ArifmeticIncrement(),
                 new SubstractionInfix(), new SubstractionPrefix(), new ArifmeticDecrement(),
                 new MultiplicationInfix(), new MultiplicationPrefix(),
-                new DivisionInfix(), new DivisionPrefix(), //TODO остаток от деления
+                new DivisionInfix(), new DivisionPrefix(),
                 new ArifmeticExpression(), new BooleanComparsionsExpression(), new BooleanOperatorsExpression(),
                 new IsEqual(), new IsNotEqual(),
                 new IsLessThan(), new IsLessThanOrEqual(), new IsGreaterThan(), new IsGreaterThanOrEqual(),

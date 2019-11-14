@@ -35,6 +35,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules.UserInter
         {
             List<Token> childsInput = new List<Token>();
             childsInput.Add(stack[stack.Count - 2]);
+            childsInput.Add(stack[stack.Count - 4]);
             ConvertTokens(ref stack, rule.Length, returnType, childsInput);
         }
     }

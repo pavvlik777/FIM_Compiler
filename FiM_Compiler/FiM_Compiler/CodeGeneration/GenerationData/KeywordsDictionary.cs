@@ -63,6 +63,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData
             { KeywordType.BooleanNot, new string[] { "not" } },
 
             { KeywordType.IfStartFirst, new string[] { "If", "When" } },
+            { KeywordType.ElifStart, new string[] { "Otherwise if", "Otherwise when", "Or else if", "Or else when" } },
             { KeywordType.IfStartSecond, new string[] { "then" } },
             { KeywordType.IfEnd, new string[] { "That's what I would do" } },
             { KeywordType.IfElse, new string[] { "Otherwise", "Or else" } },
@@ -94,6 +95,24 @@ namespace FiM_Compiler.CodeGeneration.GenerationData
             { KeywordType.StringArray, new string[] { "many words", "many phrases", "many sentences", "many quotes", "many names" } },
             { KeywordType.BoolArray, new string[] { "logics", "arguments", "many arguments" } },
         };
+
+        public static string GetVariableType(string variable)
+        {
+            KeywordType type = variableTypesDictionary.First(x => x.Value.Contains(variable)).Key;
+            switch(type)
+            {
+                case KeywordType.Int: return "int";
+                case KeywordType.Char: return "char";
+                case KeywordType.String: return "string";
+                case KeywordType.Bool: return "bool";
+
+                case KeywordType.IntArray: return "int[]";
+                case KeywordType.CharArray: return "char[]";
+                case KeywordType.StringArray: return "string[]";
+                case KeywordType.BoolArray: return "bool[]";
+            }
+            throw new NotImplementedException();
+        }
 
         private static List<string> keywords = null;
         private static List<string> variableTypes = null;

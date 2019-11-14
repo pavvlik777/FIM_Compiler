@@ -8,16 +8,9 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules
         {
             returnType = TokenType.VariableDeclaration;
             rule = new TokenType[] {
-                TokenType.Keyword, TokenType.Whitespace, TokenType.Name, TokenType.Whitespace, TokenType.Keyword, TokenType.Whitespace, TokenType.Name, TokenType.Punctuation
+                TokenType.Keyword, TokenType.Whitespace, TokenType.Name, TokenType.Whitespace, TokenType.Keyword, TokenType.Whitespace, TokenType.Value, TokenType.Punctuation
             };
             variations = null;
-            //variations = new List<TokenType[]>() TODO
-            //{
-            //    new TokenType[]
-            //    {
-            //    TokenType.Keyword, TokenType.Whitespace, TokenType.Name, TokenType.Whitespace, TokenType.Keyword, TokenType.Whitespace, TokenType.Literal, TokenType.Punctuation
-            //    }
-            //};
             CheckVariations();
         }
 

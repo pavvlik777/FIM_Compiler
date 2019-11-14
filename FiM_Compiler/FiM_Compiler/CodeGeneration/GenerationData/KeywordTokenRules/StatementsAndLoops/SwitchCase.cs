@@ -38,6 +38,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules.Statement
             List<Token> childsInput = new List<Token>();
             childsInput.Add(stack[stack.Count - 4]);
             ConvertTokens(ref stack, rule.Length, returnType, childsInput);
+            stack.Insert(stack.Count - 1, new Token(TokenType.SwitchCaseEnd));
         }
     }
 }

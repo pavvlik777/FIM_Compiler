@@ -245,7 +245,7 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.ErrorsChecks
         {
             if (token.Type == TokenType.Name)
             {
-                if (variables.Any(x => x == token.Value)) return TokenType.VariableName;
+                //if (variables.Any(x => x == token.Value)) return TokenType.VariableName;
             }
             return token.Type;
         }

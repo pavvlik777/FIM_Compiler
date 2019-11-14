@@ -99,6 +99,8 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
                 newToken = new Token(TokenType.CloseMultilineComments, input.ToString());
             else if (input == ' ')
                 newToken = new Token(TokenType.SingleSpace, input.ToString());
+            else if (input == '"')
+                newToken = new Token(TokenType.Delimeters, input.ToString());
             else if (IsWhitespace(input))
                 newToken = new Token(TokenType.Whitespace, input.ToString());
             else
@@ -113,47 +115,31 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
 
         bool CheckStackForVariable(ref List<Token> stack)
         {
-            bool output = false;
             foreach (string keyword in variablesTypes)
             {
                 string[] template = keyword.Split(' ');
-                if (stack.Count >= template.Length * 2 - 1)
+                int i = template.Length * 2 - 1;
+                while (stack.Count >= i && i > 0)
                 {
-                    output = true;
-                    for (int i = 1; i <= template.Length * 2 - 1; i++)
+                    string temp = "";
+                    for (int j = i; j >= 1; j--)
                     {
-                        if (i % 2 == 0)
+                        temp += stack[stack.Count - j].Value;
+                    }
+                    if (temp == keyword)
+                    {
+                        if (i != 1 || stack[stack.Count - 1].Type != TokenType.VariableType)
                         {
-                            if (stack[stack.Count - i].Type != TokenType.SingleSpace)
-                            {
-                                output = false;
-                                break;
-                            }
-                        }
-                        else
-                        {
-                            if ((stack[stack.Count - i].Type != TokenType.Name && template.Length == 1)
-                                || stack[stack.Count - i].Value != template[template.Length - (i + 1) / 2])
-                            {
-                                output = false;
-                                break;
-                            }
-                            else if ((stack[stack.Count - i].Type != TokenType.Name && stack[stack.Count - i].Type != TokenType.VariableType && template.Length > 1)
-                               || stack[stack.Count - i].Value != template[template.Length - (i + 1) / 2])
-                            {
-                                output = false;
-                                break;
-                            }
+                            //for (int i = 1; i <= template.Length * 2 - 1; i = i + 2)
+                            //    stack[stack.Count - i].Type = TokenType.Keyword;
+                            ConvertTokens(ref stack, i, TokenType.VariableType); //this code makes value like => Your faithful student
+                            return true;
                         }
                     }
-                    if (output)
-                    {
-                        ConvertTokens(ref stack, template.Length * 2 - 1, TokenType.VariableType); //this code makes value like => Your faithful student
-                        return true;
-                    }
+                    i--;
                 }
             }
-            return output;
+            return false;
         }
 
         void ConvertTokens(ref List<Token> stack, int amount, TokenType newType, List<Token> childs = null)
@@ -173,49 +159,31 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
 
         bool CheckStackForKeyword(ref List<Token> stack)
         {
-            bool output = false;
             foreach (string keyword in keywords)
             {
                 string[] template = keyword.Split(' ');
-                if (stack.Count >= template.Length * 2 - 1)
+                int i = template.Length * 2 - 1;
+                while (stack.Count >= i && i > 0)
                 {
-                    output = true;
-                    for (int i = 1; i <= template.Length * 2 - 1; i++)
+                    string temp = "";
+                    for (int j = i; j >= 1; j--)
                     {
-                        if (i % 2 == 0)
+                        temp += stack[stack.Count - j].Value;
+                    }
+                    if (temp == keyword)
+                    {
+                        if(i != 1 || stack[stack.Count - 1].Type != TokenType.Keyword)
                         {
-                            if (stack[stack.Count - i].Type != TokenType.SingleSpace)
-                            {
-                                output = false;
-                                break;
-                            }
-                        }
-                        else
-                        {
-                            if ((stack[stack.Count - i].Type != TokenType.Name && template.Length == 1)
-                                || stack[stack.Count - i].Value != template[template.Length - (i + 1) / 2])
-                            {
-                                output = false;
-                                break;
-                            }
-                            else  if ((stack[stack.Count - i].Type != TokenType.Name && stack[stack.Count - i].Type != TokenType.Keyword && template.Length > 1)
-                                || stack[stack.Count - i].Value != template[template.Length - (i + 1) / 2])
-                            {
-                                output = false;
-                                break;
-                            }
+                            //for (int i = 1; i <= template.Length * 2 - 1; i = i + 2)
+                            //    stack[stack.Count - i].Type = TokenType.Keyword;
+                            ConvertTokens(ref stack, i, TokenType.Keyword); //this code makes value like => Your faithful student
+                            return true;
                         }
                     }
-                    if (output)
-                    {
-                        //for (int i = 1; i <= template.Length * 2 - 1; i = i + 2)
-                        //    stack[stack.Count - i].Type = TokenType.Keyword;
-                        ConvertTokens(ref stack, template.Length * 2 - 1, TokenType.Keyword); //this code makes value like => Your faithful student
-                        return true;
-                    }
+                    i--;
                 }
             }
-            return output;
+            return false;
         }
         #endregion
 
