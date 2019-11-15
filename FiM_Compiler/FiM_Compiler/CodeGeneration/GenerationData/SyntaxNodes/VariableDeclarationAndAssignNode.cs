@@ -32,7 +32,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
             }
             if (value != token.Childs[1].VariableTypeValue && value != "null")
             {
-                compileErrors.Add(new Error($"Incorrect assigning type in variable declaration"));
+                compileErrors.Add(new Error($"Variable with name {token.Childs[0].Value} must be assigned with value of correct type"));
                 return false;
             }
             variables.Add((token.Childs[0].Value, token.Childs[1].VariableTypeValue));

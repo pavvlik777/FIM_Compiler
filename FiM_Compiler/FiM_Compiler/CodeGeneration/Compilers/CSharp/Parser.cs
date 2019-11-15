@@ -193,9 +193,7 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp
             }
             else if (parent == SyntaxType.IfTruePart)
             {
-                SyntaxNode node = new IfTrueNode();
-                SyntaxNode condition = new ExpressionNode(tokens[start - 1].Childs[0]);
-                node.Nodes.Add(condition);
+                SyntaxNode node = new IfTrueNode(tokens[start - 1].Childs[0]);
                 Node(parent, start, end, tokens, compileErrors, node, "if");
                 return node;
             }
@@ -207,9 +205,7 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp
             }
             else if (parent == SyntaxType.ElifPart)
             {
-                SyntaxNode node = new ElifNode();
-                SyntaxNode condition = new ExpressionNode(tokens[start - 1].Childs[0]);
-                node.Nodes.Add(condition);
+                SyntaxNode node = new ElifNode(tokens[start - 1].Childs[0]);
                 Node(parent, start, end, tokens, compileErrors, node, "else-if");
                 return node;
             }
@@ -227,17 +223,13 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp
             }
             else if (parent == SyntaxType.While)
             {
-                SyntaxNode node = new WhileNode();
-                SyntaxNode condition = new ExpressionNode(tokens[start - 1].Childs[0]);
-                node.Nodes.Add(condition);
+                SyntaxNode node = new WhileNode(tokens[start - 1].Childs[0]);
                 Node(parent, start, end, tokens, compileErrors, node, "while");
                 return node;
             }
             else if (parent == SyntaxType.DoWhile)
             {
-                SyntaxNode node = new DoWhileNode();
-                SyntaxNode condition = new ExpressionNode(tokens[end].Childs[0]);
-                node.Nodes.Add(condition);
+                SyntaxNode node = new DoWhileNode(tokens[end].Childs[0]);
                 Node(parent, start, end, tokens, compileErrors, node, "do-while");
                 return node;
             }

@@ -44,7 +44,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
                     return false;
                 else if(type == "null" || type == "void")
                 {
-                    compileErrors.Add(new Error($"Variable with name {token.Childs[0].Value} must have correct type"));
+                    compileErrors.Add(new Error($"Variable with name {token.Childs[0].Value} must be assigned with value of correct type"));
                     return false;
                 }
                 variables.Add((token.Childs[0].Value, type));
