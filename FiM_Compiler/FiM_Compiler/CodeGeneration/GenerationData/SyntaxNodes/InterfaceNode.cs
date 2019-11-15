@@ -26,11 +26,11 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
             code += "\n\n";
             return code;
         }
-        public override bool CheckNode(List<Error> compileErrors, Dictionary<string, string> variables)
+        public override bool CheckNode(List<Error> compileErrors, List<(string, string)> variables, List<(string, string)> methods)
         {
             bool status = true;
             foreach (var cur in Nodes)
-                status = status && cur.CheckNode(compileErrors, variables);
+                status = status && cur.CheckNode(compileErrors, variables, methods);
             return status;
         }
 

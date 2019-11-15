@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FiM_Compiler.CodeGeneration.GenerationData;
+using FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules;
 using FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules.VariableModifiers;
 
 namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
@@ -45,7 +46,8 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
         {
             rules = new List<TokenRule>()
             {
-                new VariableRewriting()
+                new VariableRewriting(),
+                new MethodReturn()
             };
             Sort(rules);
         }

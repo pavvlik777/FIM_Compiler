@@ -44,11 +44,6 @@ namespace FiM_Compiler.CodeGeneration.Compilers
                 sourceCode += '\n';
         }
 
-        bool IsWhitespace(char symbol)
-        {
-            return symbol == ' ' || symbol == '\t';
-        }
-
         void PrintResult(string code)
         {
             outputFilename = string.Format(@"{0}.cs",

@@ -14,11 +14,15 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
             return ParseExpression(token);
         }
 
-        public override bool CheckNode(List<Error> compileErrors, Dictionary<string, string> variables)
+        public override bool CheckNode(List<Error> compileErrors, List<(string, string)> variables, List<(string, string)> methods)
         {
+            if(GetExpressionType(token, compileErrors, variables, methods) == "Error")
+            {
+                return false;
+            }
             bool status = true;
             foreach (var cur in Nodes)
-                status = status && cur.CheckNode(compileErrors, variables);
+                status = status && cur.CheckNode(compileErrors, variables, methods);
             return status;
         }
 

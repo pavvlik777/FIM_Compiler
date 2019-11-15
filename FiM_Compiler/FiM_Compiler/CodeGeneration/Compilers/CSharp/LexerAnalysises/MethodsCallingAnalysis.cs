@@ -45,7 +45,6 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
                 new MethodCalling(), new MethodCallingWithParameters(), new MethodCallingWithKeyword(),
                 new MethodCallingParameters(), new MethodCallingParametersExtra(), new MethodCallingParametersMerge(),
                 new VariableDeclarationAndAssignValue(),
-                new MethodReturn()
             };
             Sort(ref rules);
         }

@@ -19,11 +19,24 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
         public ProgramNode() : base(SyntaxType.Program)
         { }
 
-        public override bool CheckNode(List<Error> compileErrors, Dictionary<string, string> variables)
+        public override bool CheckNode(List<Error> compileErrors, List<(string, string)> variables, List<(string, string)> methods)
         {
+            int amountOfEntryPoints = 0;
+            foreach (var cur in Nodes)
+                if(cur.Type == SyntaxType.Class)
+                {
+                    ClassNode node = (ClassNode)cur;
+                    amountOfEntryPoints += node.AmountOfEntryPoints();
+                }
+            if(amountOfEntryPoints != 1)
+            {
+                compileErrors.Add(new Error("Incorrect amount of entry points"));
+                return false;
+            }
+
             bool status = true;
             foreach (var cur in Nodes)
-                status = status && cur.CheckNode(compileErrors, variables);
+                status = status && cur.CheckNode(compileErrors, variables, methods);
             return status;
         }
     }

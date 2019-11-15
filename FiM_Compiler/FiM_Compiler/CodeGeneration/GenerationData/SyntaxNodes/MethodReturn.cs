@@ -14,16 +14,21 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
             string output = $"{offset}return {ParseExpression(token.Childs[0])};";
             return output;
         }
-        public MethodReturn(Token token) : base(SyntaxType.MethodCalling)
+        public MethodReturn(Token token) : base(SyntaxType.MethodReturn)
         {
             this.token = token;
         }
 
-        public override bool CheckNode(List<Error> compileErrors, Dictionary<string, string> variables)
+        public string GetReturnType(List<Error> compileErrors, List<(string, string)> variables, List<(string, string)> methods)
+        {
+            return GetExpressionType(token.Childs[0], compileErrors, variables, methods);
+        }
+
+        public override bool CheckNode(List<Error> compileErrors, List<(string, string)> variables, List<(string, string)> methods)
         {
             bool status = true;
             foreach (var cur in Nodes)
-                status = status && cur.CheckNode(compileErrors, variables);
+                status = status && cur.CheckNode(compileErrors, variables, methods);
             return status;
         }
     }

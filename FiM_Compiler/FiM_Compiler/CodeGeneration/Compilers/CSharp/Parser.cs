@@ -18,10 +18,7 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp
 
         public bool PerformTypesCheck(SyntaxNode head, List<Error> compileErrors)
         {
-            bool status = true;
-            foreach (var cur in head.Nodes)
-                status = status && cur.CheckNode(compileErrors, new Dictionary<string, string>());
-            return status;
+            return head.CheckNode(compileErrors, new List<(string, string)>(), new List<(string, string)>());
         }
 
         public SyntaxNode GenerateSyntaxTree(List<Token> tokens, List<Error> compileErrors)

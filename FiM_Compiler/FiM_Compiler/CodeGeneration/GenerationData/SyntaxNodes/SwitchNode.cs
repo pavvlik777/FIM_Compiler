@@ -19,11 +19,23 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
             return code;
         }
 
-        public override bool CheckNode(List<Error> compileErrors, Dictionary<string, string> variables)
+        public override bool CheckNode(List<Error> compileErrors, List<(string, string)> variables, List<(string, string)> methods)
         {
+            bool isCaseExists = false;
+            foreach (var cur in Nodes)
+                if (cur.Type == SyntaxType.SwitchCase)
+                    isCaseExists = true;
+            if(!isCaseExists)
+            {
+                compileErrors.Add(new Error("Switch statement must have at least one case"));
+                return false;
+            }
+            int amountOfVars = variables.Count;
             bool status = true;
             foreach (var cur in Nodes)
-                status = status && cur.CheckNode(compileErrors, variables);
+                status = status && cur.CheckNode(compileErrors, variables, methods);
+            while (variables.Count != amountOfVars)
+                variables.RemoveAt(variables.Count - 1);
             return status;
         }
 

@@ -23,11 +23,42 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
             return code;
         }
 
-        public override bool CheckNode(List<Error> compileErrors, Dictionary<string, string> variables)
+        public int AmountOfEntryPoints()
         {
+            int amount = 0;
+            foreach (var cur in Nodes)
+            {
+                if(cur.Type == SyntaxType.MethodDeclaring)
+                {
+                    MethodNode node = (MethodNode)cur;
+                    if (node.IsMain) amount++;
+                }
+            }
+            return amount;
+        }
+
+        public override bool CheckNode(List<Error> compileErrors, List<(string, string)> variables, List<(string, string)> methods)
+        {
+            int amountOfMethods = methods.Count;
+            foreach(var cur in Nodes)
+            {
+                if(cur.Type == SyntaxType.MethodDeclaring)
+                {
+                    MethodNode node = (MethodNode)cur;
+                    (string, string) metadata = node.GetMethodMetadata();
+                    if (methods.Any(x => x.Item1 == metadata.Item1))
+                    {
+                        compileErrors.Add(new Error($"Method with name {metadata.Item1} already exists"));
+                        return false;
+                    }
+                    methods.Add(metadata);
+                }
+            }
             bool status = true;
             foreach (var cur in Nodes)
-                status = status && cur.CheckNode(compileErrors, variables);
+                status = status && cur.CheckNode(compileErrors, variables, methods);
+            while (methods.Count != amountOfMethods)
+                methods.RemoveAt(methods.Count - 1);
             return status;
         }
 

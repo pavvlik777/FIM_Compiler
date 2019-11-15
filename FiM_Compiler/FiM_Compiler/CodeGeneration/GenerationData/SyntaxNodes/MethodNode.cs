@@ -10,6 +10,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
     {
         Token start, end;
         bool isMain;
+        public bool IsMain { get { return isMain; } }
         public override string GenerateCode(string offset = "")
         {
             string code = "";
@@ -43,11 +44,52 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
             return code;
         }
 
-        public override bool CheckNode(List<Error> compileErrors, Dictionary<string, string> variables)
+        public (string, string) GetMethodMetadata()
         {
+            return (start.Childs[0].Value, start.Childs[1].VariableTypeValue);
+        }
+
+        public override bool CheckNode(List<Error> compileErrors, List<(string, string)> variables, List<(string, string)> methods)
+        {
+            if(start.Childs[0].Value != end.Childs[0].Value)
+            {
+                compileErrors.Add(new Error("Method declaration must have similar names in both declaring parts"));
+                return false;
+            }
+            if(start.Childs[1].Value != "void")
+            {
+                bool isReturnExists = false;
+                string targetType = KeywordsDictionary.GetVariableType(start.Childs[1].Value);
+                foreach(var cur in Nodes)
+                {
+                    if(cur.Type == SyntaxType.MethodReturn)
+                    {
+                        isReturnExists = true;
+                        MethodReturn node = (MethodReturn)cur;
+                        string value = node.GetReturnType(compileErrors, variables, methods);
+                        if(value == "Error")
+                        {
+                            return false;
+                        }
+                        if (value != targetType && value != "null")
+                        {
+                            compileErrors.Add(new Error($"Incorrect return type in method {start.Childs[0].ValueWithoutWhitespaces}"));
+                            return false;
+                        }
+                    }
+                }
+                if(!isReturnExists)
+                {
+                    compileErrors.Add(new Error("Method with not void return type must have return expression"));
+                    return false;
+                }
+            }
+            int amountOfVars = variables.Count;
             bool status = true;
             foreach (var cur in Nodes)
-                status = status && cur.CheckNode(compileErrors, variables);
+                status = status && cur.CheckNode(compileErrors, variables, methods);
+            while(variables.Count != amountOfVars)
+                variables.RemoveAt(variables.Count - 1);
             return status;
         }
 

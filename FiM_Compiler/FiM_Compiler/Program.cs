@@ -17,8 +17,8 @@ namespace FiM_Compiler
         static void Main()
         {
             Program program = new Program();
-            //Console.WriteLine("Enter filename with extension");
-            //program.sourceName = Console.ReadLine();
+            Console.WriteLine("Enter filename with extension");
+            program.sourceName = Console.ReadLine();
             bool loading = program.LoadFile();
             if (loading)
             {
@@ -38,7 +38,7 @@ namespace FiM_Compiler
             string filepath = $@"{Environment.CurrentDirectory}\{sourceName}";
             List<Error> errors = new List<Error>();
             FileInfo sourceFile = new FileInfo(filepath);
-            if (sourceFile.Extension.ToUpper(CultureInfo.InvariantCulture) == ".FPP")
+            if (sourceFile.Extension == ".fpp")
             {
                 if (sourceFile.Exists)
                 {

@@ -26,11 +26,23 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
             return code;
         }
 
-        public override bool CheckNode(List<Error> compileErrors, Dictionary<string, string> variables)
+        public override bool CheckNode(List<Error> compileErrors, List<(string, string)> variables, List<(string, string)> methods)
         {
+            int amountOfVars = variables.Count;
+            if (start.Childs.Count == 3)
+            {
+                if (variables.Any(x => x.Item1 == start.Childs[1].Value))
+                {
+                    compileErrors.Add(new Error($"Variable with name {start.Childs[1].Value} already exists"));
+                    return false;
+                }
+                variables.Add((start.Childs[1].Value, start.Childs[0].VariableTypeValue));
+            }
             bool status = true;
             foreach (var cur in Nodes)
-                status = status && cur.CheckNode(compileErrors, variables);
+                status = status && cur.CheckNode(compileErrors, variables, methods);
+            while (variables.Count != amountOfVars)
+                variables.RemoveAt(variables.Count - 1);
             return status;
         }
 
