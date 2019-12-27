@@ -7,7 +7,7 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalyses
 {
     public class WhitespacesWithNames : ILexerAnalysis
     {
-        List<TokenRule> mergeNamesRules;
+        private List<TokenRule> mergeNamesRules;
         public List<Token> PerformLexicalAnalysis(List<Token> tokens, string sourceCode)
         {
             var initStack = new List<Token>(tokens);
@@ -24,7 +24,7 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalyses
             return stack;
         }
 
-        bool CheckStackForPatterns(List<Token> tokens, List<TokenRule> rules)
+        private bool CheckStackForPatterns(List<Token> tokens, List<TokenRule> rules)
         {
             var output = false;
             foreach (var cur in rules)

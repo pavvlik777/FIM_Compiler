@@ -5,7 +5,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
 {
     public class VariableDeclarationNode : SyntaxNode
     {
-        Token token;
+        private Token token;
         public override string GenerateCode(string offset = "")
         {
             if(token.Childs[1].Type == TokenType.VariableType)

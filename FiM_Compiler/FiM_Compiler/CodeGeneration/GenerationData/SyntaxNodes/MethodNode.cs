@@ -4,8 +4,8 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
 {
     public class MethodNode : SyntaxNode
     {
-        Token start, end;
-        bool isMain;
+        private Token start, end;
+        private bool isMain;
         public bool IsMain { get { return isMain; } }
         public override string GenerateCode(string offset = "")
         {

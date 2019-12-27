@@ -9,7 +9,7 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalyses
 {
     public class CommentsAnalysis : ILexerAnalysis
     {
-        List<TokenRule> initialRules;
+        private List<TokenRule> initialRules;
         private enum Status
         { Nothing, Inline, Multiline }
 
@@ -70,7 +70,7 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalyses
             return stack;
         }
 
-        bool CheckStackForPatterns(ref List<Token> tokens, List<TokenRule> rules)
+        private bool CheckStackForPatterns(ref List<Token> tokens, List<TokenRule> rules)
         {
             var output = false;
             foreach (var cur in rules)
@@ -82,7 +82,7 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalyses
             return output;
         }
 
-        void ConvertTokens(ref List<Token> stack, int amount, TokenType newType, List<Token> childs = null)
+        private void ConvertTokens(ref List<Token> stack, int amount, TokenType newType, List<Token> childs = null)
         {
             var value = "";
             Token newToken = null;
@@ -107,7 +107,7 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalyses
             Sort(ref initialRules);
         }
 
-        void Sort(ref List<TokenRule> rules)
+        private void Sort(ref List<TokenRule> rules)
         {
             for (var i = 0; i < rules.Count - 1; i++) // Comment this if need specific order
             {

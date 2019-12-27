@@ -4,7 +4,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
 {
     public class IfTrueNode : SyntaxNode
     {
-        Token token;
+        private Token token;
         public override string GenerateCode(string offset = "")
         {
             var code = $"{offset}if ({ParseExpression(token)})";

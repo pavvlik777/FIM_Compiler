@@ -4,7 +4,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
 {
     public class SwitchNode : SyntaxNode
     {
-        Token start, end;
+        private Token start, end;
         public override string GenerateCode(string offset = "")
         {
             var code = "";

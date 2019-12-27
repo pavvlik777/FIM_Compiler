@@ -5,7 +5,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
 {
     public class ForeachNode : SyntaxNode
     {
-        Token start, end;
+        private Token start, end;
         public override string GenerateCode(string offset = "")
         {
             var code = $"{offset}foreach(";

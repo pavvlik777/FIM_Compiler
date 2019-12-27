@@ -82,7 +82,7 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalyses
             return tokens;
         }
 
-        void UpdateMethodNames(int start, int end, List<Token> tokens, List<string> variables, Stack<string> stack)
+        private void UpdateMethodNames(int start, int end, List<Token> tokens, List<string> variables, Stack<string> stack)
         {
             for (var i = start; i < end; i++)
             {

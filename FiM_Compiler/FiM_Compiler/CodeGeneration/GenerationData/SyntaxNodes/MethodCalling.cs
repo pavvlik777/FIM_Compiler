@@ -4,7 +4,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
 {
     public class MethodCalling : SyntaxNode
     {
-        Token token;
+        private Token token;
         public override string GenerateCode(string offset = "")
         {
             var output = $"{offset}{token.Childs[0].ValueWithoutWhitespaces}(";

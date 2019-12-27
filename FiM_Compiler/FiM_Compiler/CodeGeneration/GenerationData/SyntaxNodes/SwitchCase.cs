@@ -4,8 +4,8 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
 {
     public class SwitchCase : SyntaxNode
     {
-        Token token;
-        bool isDefaultCase;
+        private Token token;
+        private bool isDefaultCase;
 
         public override string GenerateCode(string offset = "")
         {

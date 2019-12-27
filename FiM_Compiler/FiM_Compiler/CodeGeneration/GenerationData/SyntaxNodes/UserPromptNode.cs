@@ -4,7 +4,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
 {
     public class UserPromptNode : SyntaxNode
     {
-        Token token;
+        private Token token;
         public override string GenerateCode(string offset = "")
         {
             var code = $"{offset}System.Console.WriteLine({ParseExpression(token.Childs[0])});\n";

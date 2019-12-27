@@ -7,23 +7,22 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalyses
 {
     public class InitialAnalysis : ILexerAnalysis
     {
-        string[] keywords;
-        string[] variablesTypes;
-        char[] punctuation = { ':', '.', '!', ',', '?' };
+        private readonly string[] _keywords;
+        private readonly string[] _variablesTypes;
+        private readonly char[] _punctuation = { ':', '.', '!', ',', '?' };
 
-        List<TokenRule> rules;
+        private readonly List<TokenRule> _rules;
 
         public List<Token> PerformLexicalAnalysis(List<Token> tokens, string sourceCode)
         {
             var initStack = new List<Token>();
             var stack = new List<Token>();
             var i = 0;
-            Token newToken = null;
             while(i < sourceCode.Length)
             {
-                if(!CheckStackForPatterns(ref initStack, rules))
+                if(!CheckStackForPatterns(ref initStack, _rules))
                 {
-                    newToken = GetNextToken(sourceCode[i]);
+                    var newToken = GetNextToken(sourceCode[i]);
                     initStack.Add(newToken);
                     i++;
                 }
@@ -54,7 +53,8 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalyses
         }
 
         #region TokenMethods
-        bool CheckStackForPatterns(ref List<Token> tokens, List<TokenRule> rules)
+
+        private bool CheckStackForPatterns(ref List<Token> tokens, List<TokenRule> rules)
         {
             var output = false;
             foreach (var cur in rules)
@@ -66,9 +66,9 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalyses
             return output;
         }
 
-        bool IsKeyword(string input)
+        private bool IsKeyword(string input)
         {
-            foreach (var keyword in keywords)
+            foreach (var keyword in _keywords)
             {
                 var temp = keyword.Split(' ');
                 foreach (var cur in temp)
@@ -78,15 +78,15 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalyses
             return false;
         }
 
-        bool IsPunctuation(char input)
+        private bool IsPunctuation(char input)
         {
-            foreach (var cur in punctuation)
+            foreach (var cur in _punctuation)
                 if (input == cur)
                     return true;
             return false;
         }
 
-        Token GetNextToken(char input)
+        private Token GetNextToken(char input)
         {
             Token newToken = null;
             if (IsPunctuation(input))
@@ -108,14 +108,14 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalyses
             return newToken;
         }
 
-        bool IsWhitespace(char symbol)
+        private bool IsWhitespace(char symbol)
         {
             return symbol == ' ' || symbol == '\t';
         }
 
-        bool CheckStackForVariable(ref List<Token> stack)
+        private bool CheckStackForVariable(ref List<Token> stack)
         {
-            foreach (var keyword in variablesTypes)
+            foreach (var keyword in _variablesTypes)
             {
                 var template = keyword.Split(' ');
                 var i = template.Length * 2 - 1;
@@ -142,7 +142,7 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalyses
             return false;
         }
 
-        void ConvertTokens(ref List<Token> stack, int amount, TokenType newType, List<Token> childs = null)
+        private void ConvertTokens(ref List<Token> stack, int amount, TokenType newType, List<Token> childs = null)
         {
             var value = "";
             Token newToken = null;
@@ -157,9 +157,9 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalyses
             stack.Add(newToken);
         }
 
-        bool CheckStackForKeyword(ref List<Token> stack)
+        private bool CheckStackForKeyword(ref List<Token> stack)
         {
-            foreach (var keyword in keywords)
+            foreach (var keyword in _keywords)
             {
                 var template = keyword.Split(' ');
                 var i = template.Length * 2 - 1;
@@ -190,29 +190,29 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalyses
         #region Constructor
         public InitialAnalysis()
         {
-            rules = new List<TokenRule>()
+            _rules = new List<TokenRule>()
             {
                 new CharToNameRule(), new NameMergeRule(), new WhiteSpaceMergeRule()
             };
-            for (var i = 0; i < rules.Count - 1; i++) // Comment this if need specific order
+            for (var i = 0; i < _rules.Count - 1; i++) // Comment this if need specific order
             {
-                for (var j = i + 1; j < rules.Count; j++)
+                for (var j = i + 1; j < _rules.Count; j++)
                 {
-                    if (rules[i].Amount < rules[j].Amount)
+                    if (_rules[i].Amount < _rules[j].Amount)
                     {
-                        var temp = rules[i];
-                        rules[i] = rules[j];
-                        rules[j] = temp;
+                        var temp = _rules[i];
+                        _rules[i] = _rules[j];
+                        _rules[j] = temp;
                     }
                 }
             }
-            keywords = KeywordsDictionary.GetKeywords().ToArray();
-            variablesTypes = KeywordsDictionary.GetVariableTypes().ToArray();
-            Sort(ref keywords);
-            Sort(ref variablesTypes);
+            _keywords = KeywordsDictionary.GetKeywords().ToArray();
+            _variablesTypes = KeywordsDictionary.GetVariableTypes().ToArray();
+            Sort(ref _keywords);
+            Sort(ref _variablesTypes);
         }
 
-        void Sort(ref string[] keywords)
+        private void Sort(ref string[] keywords)
         {
             for (var i = 0; i < keywords.Length - 1; i++)
             {

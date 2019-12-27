@@ -8,7 +8,7 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalyses
 {
     public class MethodsCallingAnalysis : ILexerAnalysis
     {
-        List<TokenRule> rules;
+        private List<TokenRule> rules;
 
         public List<Token> PerformLexicalAnalysis(List<Token> tokens, string sourceCode)
         {
@@ -26,7 +26,7 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalyses
             return stack;
         }
 
-        bool CheckStackForPatterns(ref List<Token> tokens, List<TokenRule> rules)
+        private bool CheckStackForPatterns(ref List<Token> tokens, List<TokenRule> rules)
         {
             var output = false;
             foreach (var cur in rules)
@@ -50,7 +50,7 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalyses
             Sort(ref rules);
         }
 
-        void Sort(ref List<TokenRule> rules)
+        private void Sort(ref List<TokenRule> rules)
         {
             for (var i = 0; i < rules.Count - 1; i++) // Comment this if need specific order
             {

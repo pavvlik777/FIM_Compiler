@@ -4,7 +4,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
 {
     public class UserInputNode : SyntaxNode
     {
-        Token token;
+        private Token token;
         public override string GenerateCode(string offset = "")
         {
             return $"{offset}{token.Childs[0].ValueWithoutWhitespaces} = System.Console.ReadLine();\n";

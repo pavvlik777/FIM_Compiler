@@ -25,7 +25,7 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalyses
             return stack;
         }
 
-        bool CheckStackForPatterns(List<Token> tokens, List<TokenRule> rules)
+        private bool CheckStackForPatterns(List<Token> tokens, List<TokenRule> rules)
         {
             var output = false;
             foreach (var cur in rules)
@@ -47,7 +47,7 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalyses
             Sort(rules);
         }
 
-        void Sort(List<TokenRule> rules)
+        private void Sort(List<TokenRule> rules)
         {
             for (var i = 0; i < rules.Count - 1; i++) // Comment this if need specific order
             {

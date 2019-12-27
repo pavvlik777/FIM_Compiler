@@ -13,7 +13,7 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp
         public List<Token> PerformLexicalAnalysis(string sourceCode)
         {
             var tokens = new List<Token>();
-            foreach(var cur in _lexerAnalyses)
+            foreach (var cur in _lexerAnalyses)
             {
                 tokens = cur.PerformLexicalAnalysis(tokens, sourceCode);
             }
@@ -27,7 +27,7 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp
         {
             _lexerAnalyses = new List<ILexerAnalysis>()
             {
-                new InitialAnalysis(), 
+                new InitialAnalysis(),
                 new CommentsAnalysis(),
                 new LiteralAnalysis(),
                 new WhitespacesWithNames(),

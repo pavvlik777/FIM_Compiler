@@ -4,7 +4,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
 {
     public class InterfaceMethodNode : SyntaxNode
     {
-        Token start;
+        private Token start;
         public override string GenerateCode(string offset = "")
         {
             var code = $"{offset}{start.Childs[1].VariableTypeValue} {start.Childs[0].ValueWithoutWhitespaces} (";
