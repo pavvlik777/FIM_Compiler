@@ -65,6 +65,7 @@
     <Compile Include="CodeGeneration\Compilers\ExeCompiler.cs" />
     <Compile Include="CodeGeneration\Compilers\Interfaces\ILexer.cs" />
     <Compile Include="CodeGeneration\Compilers\Interfaces\IParser.cs" />
+    <Compile Include="CodeGeneration\Compilers\Interfaces\ISyntaxNode.cs" />
     <Compile Include="CodeGeneration\GenerationData\KeywordsDictionary.cs" />
     <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\ArifmeticOperations\AdditionPrefix.cs" />
     <Compile Include="CodeGeneration\GenerationData\KeywordTokenRules\ArifmeticOperations\ArifmeticDecrement.cs" />

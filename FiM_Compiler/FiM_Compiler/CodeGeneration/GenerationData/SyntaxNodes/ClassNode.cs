@@ -5,17 +5,21 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
 {
     public class ClassNode : SyntaxNode
     {
-        Token start, end;
+        private readonly Token _start;
+        private readonly Token _end;
+
+
         public override string GenerateCode(string offset = "")
         {
-            var code = $"class {start.Childs[1].ValueWithoutWhitespaces} : {start.Childs[0].ValueWithoutWhitespaces}";
-            for (var i = 2; i < start.Childs.Count; i++)
-                code += $", {start.Childs[i].ValueWithoutWhitespaces}";
+            var code = $"class {_start.Childs[1].ValueWithoutWhitespaces} : {_start.Childs[0].ValueWithoutWhitespaces}";
+            for (var i = 2; i < _start.Childs.Count; i++)
+            {
+                code += $", {_start.Childs[i].ValueWithoutWhitespaces}";
+            }
             code += "\n{\n";
-            foreach (var cur in Nodes)
-                code += cur.GenerateCode("\t");
+            code = Nodes.Aggregate(code, (current, cur) => current + cur.GenerateCode("\t"));
             code += @"} //";
-            code += $"{end.Childs[0].Value}";
+            code += $"{_end.Childs[0].Value}";
             code += "\n\n";
             return code;
         }
@@ -25,11 +29,12 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
             var amount = 0;
             foreach (var cur in Nodes)
             {
-                if(cur.Type == SyntaxType.MethodDeclaring)
+                if (cur.Type != SyntaxType.MethodDeclaring)
                 {
-                    var node = (MethodNode)cur;
-                    if (node.IsMain) amount++;
+                    continue;
                 }
+                var node = (MethodNode)cur;
+                if (node.IsMain) amount++;
             }
             return amount;
         }
@@ -39,30 +44,32 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
             var amountOfMethods = methods.Count;
             foreach(var cur in Nodes)
             {
-                if(cur.Type == SyntaxType.MethodDeclaring)
+                if (cur.Type != SyntaxType.MethodDeclaring)
                 {
-                    var node = (MethodNode)cur;
-                    var metadata = node.GetMethodMetadata();
-                    if (methods.Any(x => x.Item1 == metadata.Item1))
-                    {
-                        compileErrors.Add(new Error($"Method with name {metadata.Item1} already exists"));
-                        return false;
-                    }
-                    methods.Add(metadata);
+                    continue;
                 }
+                var node = (MethodNode)cur;
+                var metadata = node.GetMethodMetadata();
+                if (methods.Any(x => x.Item1 == metadata.Item1))
+                {
+                    compileErrors.Add(new Error($"Method with name {metadata.Item1} already exists"));
+                    return false;
+                }
+                methods.Add(metadata);
             }
-            var status = true;
-            foreach (var cur in Nodes)
-                status = status && cur.CheckNode(compileErrors, variables, methods);
+            var status = Nodes.Aggregate(true, (current, cur) => current && cur.CheckNode(compileErrors, variables, methods));
             while (methods.Count != amountOfMethods)
+            {
                 methods.RemoveAt(methods.Count - 1);
+            }
             return status;
         }
 
+
         public ClassNode(Token start, Token end) : base(SyntaxType.Class)
         {
-            this.start = start;
-            this.end = end;
+            this._start = start;
+            this._end = end;
         }
     }
 }
