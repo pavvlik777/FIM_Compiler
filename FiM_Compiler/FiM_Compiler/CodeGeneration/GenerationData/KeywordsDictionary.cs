@@ -98,7 +98,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData
 
         public static string GetVariableType(string variable)
         {
-            KeywordType type = variableTypesDictionary.First(x => x.Value.Contains(variable)).Key;
+            var type = variableTypesDictionary.First(x => x.Value.Contains(variable)).Key;
             switch(type)
             {
                 case KeywordType.Int: return "int";

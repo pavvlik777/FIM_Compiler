@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules
+namespace FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules.Comments
 {
     public class InlineCommentStartRule : TokenRule
     {

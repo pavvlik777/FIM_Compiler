@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
 {
@@ -11,7 +8,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
         Token start, end;
         public override string GenerateCode(string offset = "")
         {
-            string code = $"{offset}for(";
+            var code = $"{offset}for(";
             if(start.Childs.Count == 4) //with declaring
             {
                 code += $"{start.Childs[0].VariableTypeValue} {start.Childs[1].ValueWithoutWhitespaces} = {ParseExpression(start.Childs[2])}; {start.Childs[1].ValueWithoutWhitespaces} < {ParseExpression(start.Childs[3])}; {start.Childs[1].ValueWithoutWhitespaces}++) {{\n";
@@ -28,7 +25,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
 
         public override bool CheckNode(List<Error> compileErrors, List<(string, string)> variables, List<(string, string)> methods)
         {
-            int amountOfVars = variables.Count;
+            var amountOfVars = variables.Count;
             if (start.Childs.Count == 4)
             {
                 if (variables.Any(x => x.Item1 == start.Childs[1].Value))
@@ -38,7 +35,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
                 }
                 variables.Add((start.Childs[1].Value, start.Childs[0].VariableTypeValue));
             }
-            bool status = true;
+            var status = true;
             foreach (var cur in Nodes)
                 status = status && cur.CheckNode(compileErrors, variables, methods);
             while (variables.Count != amountOfVars)

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
 {
@@ -11,11 +7,11 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
         Token start, end;
         public override string GenerateCode(string offset = "")
         {
-            string code = $"interface {start.Childs[0].ValueWithoutWhitespaces}";
+            var code = $"interface {start.Childs[0].ValueWithoutWhitespaces}";
             if(start.Childs.Count >= 2)
             {
                 code += $" : {start.Childs[1].ValueWithoutWhitespaces}";
-                for (int i = 2; i < start.Childs.Count; i++)
+                for (var i = 2; i < start.Childs.Count; i++)
                     code += $", {start.Childs[i].ValueWithoutWhitespaces}";
             }
             code += "\n{\n";
@@ -28,7 +24,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
         }
         public override bool CheckNode(List<Error> compileErrors, List<(string, string)> variables, List<(string, string)> methods)
         {
-            bool status = true;
+            var status = true;
             foreach (var cur in Nodes)
                 status = status && cur.CheckNode(compileErrors, variables, methods);
             return status;

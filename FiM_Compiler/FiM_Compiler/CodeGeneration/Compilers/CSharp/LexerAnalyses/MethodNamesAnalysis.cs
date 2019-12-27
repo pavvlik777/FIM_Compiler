@@ -1,19 +1,18 @@
-﻿using FiM_Compiler.CodeGeneration.GenerationData;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using FiM_Compiler.CodeGeneration.Compilers.Interfaces;
+using FiM_Compiler.CodeGeneration.GenerationData;
 
-namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
+namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalyses
 {
     public class MethodNamesAnalysis : ILexerAnalysis
     {
         public List<Token> PerformLexicalAnalysis(List<Token> tokens, string sourceCode)
         {
-            int currentIndex = 0;
-            int start = 0;
-            List<string> methods = new List<string>();
-            bool isClass = false;
+            var currentIndex = 0;
+            var start = 0;
+            var methods = new List<string>();
+            var isClass = false;
             while(currentIndex < tokens.Count)
             {
                 if(isClass)
@@ -54,7 +53,7 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
 
         void UpdateMethodNames(int start, int end, List<Token> tokens, List<string> methods)
         {
-            for(int i = start; i < end; i++)
+            for(var i = start; i < end; i++)
             {
                 if(tokens[i].Type == TokenType.Name && methods.Any(x => x == tokens[i].Value))
                 {

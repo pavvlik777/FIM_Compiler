@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
 {
@@ -21,7 +17,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
 
         public override bool CheckNode(List<Error> compileErrors, List<(string, string)> variables, List<(string, string)> methods)
         {
-            string type = GetExpressionType(token.Childs[1], compileErrors, variables, methods);
+            var type = GetExpressionType(token.Childs[1], compileErrors, variables, methods);
             if (type == "Error")
                 return false;
             else if (type == "null" || type == "void")
@@ -29,7 +25,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
                 compileErrors.Add(new Error($"Variable with name {token.Childs[0].Value} must be assigned with value of correct type"));
                 return false;
             }
-            bool status = true;
+            var status = true;
             foreach (var cur in Nodes)
                 status = status && cur.CheckNode(compileErrors, variables, methods);
             return status;

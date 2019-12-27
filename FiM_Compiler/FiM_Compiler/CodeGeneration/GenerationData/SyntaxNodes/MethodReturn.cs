@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
 {
@@ -11,7 +7,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
         Token token;
         public override string GenerateCode(string offset = "")
         {
-            string output = $"{offset}return {ParseExpression(token.Childs[0])};";
+            var output = $"{offset}return {ParseExpression(token.Childs[0])};";
             return output;
         }
         public MethodReturn(Token token) : base(SyntaxType.MethodReturn)
@@ -26,7 +22,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
 
         public override bool CheckNode(List<Error> compileErrors, List<(string, string)> variables, List<(string, string)> methods)
         {
-            bool status = true;
+            var status = true;
             foreach (var cur in Nodes)
                 status = status && cur.CheckNode(compileErrors, variables, methods);
             return status;

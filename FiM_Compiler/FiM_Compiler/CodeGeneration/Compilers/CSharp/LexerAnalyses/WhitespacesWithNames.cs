@@ -1,21 +1,18 @@
-﻿using FiM_Compiler.CodeGeneration.GenerationData;
+﻿using System.Collections.Generic;
+using FiM_Compiler.CodeGeneration.Compilers.Interfaces;
+using FiM_Compiler.CodeGeneration.GenerationData;
 using FiM_Compiler.CodeGeneration.GenerationData.InitialTokenRules;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
+namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalyses
 {
     public class WhitespacesWithNames : ILexerAnalysis
     {
         List<TokenRule> mergeNamesRules;
         public List<Token> PerformLexicalAnalysis(List<Token> tokens, string sourceCode)
         {
-            List<Token> initStack = new List<Token>(tokens);
-            List<Token> stack = new List<Token>();
-            int i = 0;
+            var initStack = new List<Token>(tokens);
+            var stack = new List<Token>();
+            var i = 0;
             while (i < initStack.Count)
             {
                 if (!CheckStackForPatterns(stack, mergeNamesRules))
@@ -29,7 +26,7 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
 
         bool CheckStackForPatterns(List<Token> tokens, List<TokenRule> rules)
         {
-            bool output = false;
+            var output = false;
             foreach (var cur in rules)
                 if (cur.IsStackMatch(tokens))
                 {

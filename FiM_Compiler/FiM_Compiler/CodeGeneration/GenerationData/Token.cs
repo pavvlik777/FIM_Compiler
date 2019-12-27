@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FiM_Compiler.CodeGeneration.GenerationData
 {
@@ -44,7 +41,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData
 
         public override string ToString()
         {
-            string value = Value;
+            var value = Value;
             if (string.IsNullOrWhiteSpace(value))
                 value = $"Whitespace: length - {Value.Length}";
             else

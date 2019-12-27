@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using FiM_Compiler.CodeGeneration.Compilers.Interfaces;
 using FiM_Compiler.CodeGeneration.GenerationData;
 using FiM_Compiler.CodeGeneration.GenerationData.InitialTokenRules;
 
-namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
+namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalyses
 {
     public class InitialAnalysis : ILexerAnalysis
     {
@@ -15,9 +15,9 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
 
         public List<Token> PerformLexicalAnalysis(List<Token> tokens, string sourceCode)
         {
-            List<Token> initStack = new List<Token>();
-            List<Token> stack = new List<Token>();
-            int i = 0;
+            var initStack = new List<Token>();
+            var stack = new List<Token>();
+            var i = 0;
             Token newToken = null;
             while(i < sourceCode.Length)
             {
@@ -56,7 +56,7 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
         #region TokenMethods
         bool CheckStackForPatterns(ref List<Token> tokens, List<TokenRule> rules)
         {
-            bool output = false;
+            var output = false;
             foreach (var cur in rules)
                 if (cur.IsStackMatch(tokens))
                 {
@@ -70,7 +70,7 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
         {
             foreach (var keyword in keywords)
             {
-                string[] temp = keyword.Split(' ');
+                var temp = keyword.Split(' ');
                 foreach (var cur in temp)
                     if (input == cur)
                         return true;
@@ -115,14 +115,14 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
 
         bool CheckStackForVariable(ref List<Token> stack)
         {
-            foreach (string keyword in variablesTypes)
+            foreach (var keyword in variablesTypes)
             {
-                string[] template = keyword.Split(' ');
-                int i = template.Length * 2 - 1;
+                var template = keyword.Split(' ');
+                var i = template.Length * 2 - 1;
                 while (stack.Count >= i && i > 0)
                 {
-                    string temp = "";
-                    for (int j = i; j >= 1; j--)
+                    var temp = "";
+                    for (var j = i; j >= 1; j--)
                     {
                         temp += stack[stack.Count - j].Value;
                     }
@@ -144,29 +144,29 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
 
         void ConvertTokens(ref List<Token> stack, int amount, TokenType newType, List<Token> childs = null)
         {
-            string value = "";
+            var value = "";
             Token newToken = null;
-            for (int j = amount; j >= 1; j--)
+            for (var j = amount; j >= 1; j--)
                 value += stack[stack.Count - j].Value;
             if (childs != null)
                 newToken = new Token(newType, value, new List<Token>(childs));
             else
                 newToken = new Token(newType, value);
-            for (int j = 1; j <= amount; j++)
+            for (var j = 1; j <= amount; j++)
                 stack.RemoveAt(stack.Count - 1);
             stack.Add(newToken);
         }
 
         bool CheckStackForKeyword(ref List<Token> stack)
         {
-            foreach (string keyword in keywords)
+            foreach (var keyword in keywords)
             {
-                string[] template = keyword.Split(' ');
-                int i = template.Length * 2 - 1;
+                var template = keyword.Split(' ');
+                var i = template.Length * 2 - 1;
                 while (stack.Count >= i && i > 0)
                 {
-                    string temp = "";
-                    for (int j = i; j >= 1; j--)
+                    var temp = "";
+                    for (var j = i; j >= 1; j--)
                     {
                         temp += stack[stack.Count - j].Value;
                     }
@@ -194,13 +194,13 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
             {
                 new CharToNameRule(), new NameMergeRule(), new WhiteSpaceMergeRule()
             };
-            for (int i = 0; i < rules.Count - 1; i++) // Comment this if need specific order
+            for (var i = 0; i < rules.Count - 1; i++) // Comment this if need specific order
             {
-                for (int j = i + 1; j < rules.Count; j++)
+                for (var j = i + 1; j < rules.Count; j++)
                 {
                     if (rules[i].Amount < rules[j].Amount)
                     {
-                        TokenRule temp = rules[i];
+                        var temp = rules[i];
                         rules[i] = rules[j];
                         rules[j] = temp;
                     }
@@ -214,21 +214,21 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
 
         void Sort(ref string[] keywords)
         {
-            for (int i = 0; i < keywords.Length - 1; i++)
+            for (var i = 0; i < keywords.Length - 1; i++)
             {
-                for (int j = i + 1; j < keywords.Length; j++)
+                for (var j = i + 1; j < keywords.Length; j++)
                 {
-                    int first = 0;
-                    for (int t = 0; t < keywords[i].Length; t++)
+                    var first = 0;
+                    for (var t = 0; t < keywords[i].Length; t++)
                         if (keywords[i][t] == ' ')
                             first++;
-                    int second = 0;
-                    for (int t = 0; t < keywords[j].Length; t++)
+                    var second = 0;
+                    for (var t = 0; t < keywords[j].Length; t++)
                         if (keywords[j][t] == ' ')
                             second++;
                     if (first < second)
                     {
-                        string temp = keywords[i];
+                        var temp = keywords[i];
                         keywords[i] = keywords[j];
                         keywords[j] = temp;
                     }

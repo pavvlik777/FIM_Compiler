@@ -1,12 +1,13 @@
-﻿using System;
-
-namespace FiM_Compiler
+﻿namespace FiM_Compiler
 {
     public class Error
     {
-        public string ErrorText { get; set; }
-        public bool IsWarning { get; set; }
-        public int Line { get; set; }
+        public string ErrorText { get; }
+
+        public bool IsWarning { get; }
+
+        public int Line { get; }
+
 
         /// <summary>
         /// Creates error with message
@@ -43,11 +44,13 @@ namespace FiM_Compiler
             Line = -1;
         }
 
+
         public override string ToString()
         {
-            string type = IsWarning ? "Warning" : "Error";
-            string message = $"{type}: {ErrorText}";
-            message += Line != -1 ? $" Line {Line}" : "";
+            var type = IsWarning ? "Warning" : "Error";
+            var message = $"{type}: {ErrorText}";
+            message += Line != -1 ? $" Line {Line}" : ""; //TODO
+
             return $"{type}: {ErrorText}";
         }
     }

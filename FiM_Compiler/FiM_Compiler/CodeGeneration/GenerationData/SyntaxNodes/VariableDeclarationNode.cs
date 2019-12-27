@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
 {
@@ -39,7 +36,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
                     compileErrors.Add(new Error($"Variable with name {token.Childs[0].Value} already exists"));
                     return false;
                 }
-                string type = GetExpressionType(token.Childs[1], compileErrors, variables, methods);
+                var type = GetExpressionType(token.Childs[1], compileErrors, variables, methods);
                 if (type == "Error")
                     return false;
                 else if(type == "null" || type == "void")
@@ -49,7 +46,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
                 }
                 variables.Add((token.Childs[0].Value, type));
             }
-            bool status = true;
+            var status = true;
             foreach (var cur in Nodes)
                 status = status && cur.CheckNode(compileErrors, variables, methods);
             return status;

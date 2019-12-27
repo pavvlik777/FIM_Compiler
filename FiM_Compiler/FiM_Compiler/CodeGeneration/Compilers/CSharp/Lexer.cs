@@ -1,32 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using System.Collections.Generic;
+using FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalyses;
 using FiM_Compiler.CodeGeneration.GenerationData;
-using FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises;
+using FiM_Compiler.CodeGeneration.Compilers.Interfaces;
 
 namespace FiM_Compiler.CodeGeneration.Compilers.CSharp
 {
     public class Lexer : ILexer
     {
-        private List<ILexerAnalysis> lexerAnalyses;
+        private readonly List<ILexerAnalysis> _lexerAnalyses;
+
 
         public List<Token> PerformLexicalAnalysis(string sourceCode)
         {
-            List<Token> tokens = new List<Token>();
-            foreach(var cur in lexerAnalyses)
+            var tokens = new List<Token>();
+            foreach(var cur in _lexerAnalyses)
             {
                 tokens = cur.PerformLexicalAnalysis(tokens, sourceCode);
             }
+
             return tokens;
         }
+
 
         #region Constructor
         public Lexer()
         {
-            lexerAnalyses = new List<ILexerAnalysis>()
+            _lexerAnalyses = new List<ILexerAnalysis>()
             {
                 new InitialAnalysis(), 
                 new CommentsAnalysis(),

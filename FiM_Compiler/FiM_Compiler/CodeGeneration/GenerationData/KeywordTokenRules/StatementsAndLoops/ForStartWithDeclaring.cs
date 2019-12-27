@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules.StatementsAndLoops
 {
@@ -37,7 +33,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules.Statement
 
         protected override void PerformRuleTransform(List<Token> stack)
         {
-            List<Token> childsInput = new List<Token>();
+            var childsInput = new List<Token>();
             childsInput.Add(stack[stack.Count - 12]);
             childsInput.Add(stack[stack.Count - 10]);
             childsInput.Add(stack[stack.Count - 6]);

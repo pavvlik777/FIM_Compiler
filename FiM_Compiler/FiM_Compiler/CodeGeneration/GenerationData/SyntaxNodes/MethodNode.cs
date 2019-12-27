@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
 {
@@ -13,7 +9,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
         public bool IsMain { get { return isMain; } }
         public override string GenerateCode(string offset = "")
         {
-            string code = "";
+            var code = "";
             if(isMain)
             {
                 code += $"{offset}public static {start.Childs[1].VariableTypeValue} Main (";
@@ -25,7 +21,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
             if(start.Childs.Count >= 3)
             {
                 code += $"{start.Childs[2].VariableTypeValue} {start.Childs[3].ValueWithoutWhitespaces}";
-                for(int i = 4; i < start.Childs.Count; i += 2)
+                for(var i = 4; i < start.Childs.Count; i += 2)
                     code += $", {start.Childs[i].VariableTypeValue} {start.Childs[i + 1].ValueWithoutWhitespaces}";
             }
             code += ")";
@@ -58,15 +54,15 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
             }
             if(start.Childs[1].Value != "void")
             {
-                bool isReturnExists = false;
-                string targetType = KeywordsDictionary.GetVariableType(start.Childs[1].Value);
+                var isReturnExists = false;
+                var targetType = KeywordsDictionary.GetVariableType(start.Childs[1].Value);
                 foreach(var cur in Nodes)
                 {
                     if(cur.Type == SyntaxType.MethodReturn)
                     {
                         isReturnExists = true;
-                        MethodReturn node = (MethodReturn)cur;
-                        string value = node.GetReturnType(compileErrors, variables, methods);
+                        var node = (MethodReturn)cur;
+                        var value = node.GetReturnType(compileErrors, variables, methods);
                         if(value == "Error")
                         {
                             return false;
@@ -84,8 +80,8 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
                     return false;
                 }
             }
-            int amountOfVars = variables.Count;
-            bool status = true;
+            var amountOfVars = variables.Count;
+            var status = true;
             foreach (var cur in Nodes)
                 status = status && cur.CheckNode(compileErrors, variables, methods);
             while(variables.Count != amountOfVars)

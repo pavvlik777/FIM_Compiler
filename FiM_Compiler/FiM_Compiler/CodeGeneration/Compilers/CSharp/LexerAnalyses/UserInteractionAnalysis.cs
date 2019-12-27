@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using FiM_Compiler.CodeGeneration.Compilers.Interfaces;
 using FiM_Compiler.CodeGeneration.GenerationData;
-using FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules.StatementsAndLoops;
+using FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules.UserInteractions;
 
-namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
+namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalyses
 {
-    public class StatementsAndLoopsAnalysis : ILexerAnalysis
+    public class UserInteractionAnalysis : ILexerAnalysis
     {
         private List<TokenRule> rules;
 
         public List<Token> PerformLexicalAnalysis(List<Token> tokens, string sourceCode)
         {
-            List<Token> initStack = new List<Token>(tokens);
-            List<Token> stack = new List<Token>();
-            int i = 0;
+            var initStack = new List<Token>(tokens);
+            var stack = new List<Token>();
+            var i = 0;
             while (i < initStack.Count)
             {
                 if (!CheckStackForPatterns(stack, rules))
@@ -27,7 +27,7 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
 
         bool CheckStackForPatterns(List<Token> tokens, List<TokenRule> rules)
         {
-            bool output = false;
+            var output = false;
             foreach (var cur in rules)
                 if (cur.IsStackMatch(tokens))
                 {
@@ -38,28 +38,24 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp.LexerAnalysises
         }
 
         #region Constructor
-        public StatementsAndLoopsAnalysis()
+        public UserInteractionAnalysis()
         {
             rules = new List<TokenRule>()
             {
-                new IfStart(), new IfEnd(), new IfElse(), new Elif(),
-                new SwitchDeclaration(), new SwitchCase(), new SwitchDefaultCase(), new CycleEnding(),
-                new WhileStart(), new DoWhileStart(), new DoWhileEnd(),
-                new ForStart(),
-                new ForeachStart(),
+                new Output(), new Input(), new Prompt()
             };
             Sort(rules);
         }
 
         void Sort(List<TokenRule> rules)
         {
-            for (int i = 0; i < rules.Count - 1; i++) // Comment this if need specific order
+            for (var i = 0; i < rules.Count - 1; i++) // Comment this if need specific order
             {
-                for (int j = i + 1; j < rules.Count; j++)
+                for (var j = i + 1; j < rules.Count; j++)
                 {
                     if (rules[i].Amount < rules[j].Amount)
                     {
-                        TokenRule temp = rules[i];
+                        var temp = rules[i];
                         rules[i] = rules[j];
                         rules[j] = temp;
                     }

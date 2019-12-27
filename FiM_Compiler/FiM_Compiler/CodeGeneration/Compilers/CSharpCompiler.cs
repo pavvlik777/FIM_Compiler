@@ -1,68 +1,66 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-
 using FiM_Compiler.CodeGeneration.Compilers.CSharp;
+using FiM_Compiler.CodeGeneration.Compilers.Interfaces;
 using FiM_Compiler.CodeGeneration.GenerationData;
 
 namespace FiM_Compiler.CodeGeneration.Compilers
 {
     public class CSharpCompiler : Compiler
     {
-        List<Token> tokens;
-        SyntaxNode syntaxTreeHead;
+        private List<Token> _tokens;
+        private SyntaxNode _syntaxTreeHead;
+
         
         public override void Compile(string sourceCode, string filename)
         {
             base.Compile(sourceCode, filename);
             InitialPreparing();
             ILexer lexer = new Lexer();
-            tokens = lexer.PerformLexicalAnalysis(this.sourceCode);
+            _tokens = lexer.PerformLexicalAnalysis(this.SourceCode);
 
             //foreach (var cur in tokens)
             //    if (cur.Type != TokenType.Whitespace && cur.Type != TokenType.Newline)
             //        Console.WriteLine(cur.ToString());
 
-            Parser parser = new Parser();
-            syntaxTreeHead = parser.GenerateSyntaxTree(tokens, compileErrors);
-            if (syntaxTreeHead != null)
+            var parser = new Parser();
+            _syntaxTreeHead = parser.GenerateSyntaxTree(_tokens, CompileErrors);
+            if (_syntaxTreeHead == null)
             {
-                if(parser.PerformTypesCheck(syntaxTreeHead, compileErrors))
-                {
-                    string output = parser.GenerateCode(syntaxTreeHead);
-                    PrintResult(output);
-                }
+                return;
             }
+            if (!parser.PerformTypesCheck(_syntaxTreeHead, CompileErrors))
+            {
+                return;
+            }
+            var output = parser.GenerateCode(_syntaxTreeHead);
+            PrintResult(output);
         }
 
-        void InitialPreparing()
-        {
-            compileErrors = new List<Error>() { };
 
-            sourceCode = sourceCode.Replace("\r", "");
-            if (sourceCode[sourceCode.Length - 1] != '\n')
-                sourceCode += '\n';
+        private void InitialPreparing()
+        {
+            CompileErrors = new List<Error>();
+
+            SourceCode = SourceCode.Replace("\r", "");
+            if (SourceCode[SourceCode.Length - 1] != '\n')
+                SourceCode += '\n';
         }
 
-        void PrintResult(string code)
+        private void PrintResult(string code)
         {
-            outputFilename = string.Format(@"{0}.cs",
-                     filename.Replace(".", "_"));
-
-            string outputPath = string.Format(@"{0}\{1}.cs",
-                     Environment.CurrentDirectory,
-                     filename.Replace(".", "_"));
-            using (StreamWriter sourceWriter = new StreamWriter(outputPath))
+            OutputFilename = $@"{Filename.Replace(".", "_")}.cs";
+            var outputPath = $@"{Environment.CurrentDirectory}\{Filename.Replace(".", "_")}.cs";
+            using (var sourceWriter = new StreamWriter(outputPath))
             {
                 sourceWriter.Write(code);
             }
         }
 
-        #region Constructor
-        public CSharpCompiler() : base()
-        {
 
-        }
+        #region Constructor
+
         #endregion
     }
 }

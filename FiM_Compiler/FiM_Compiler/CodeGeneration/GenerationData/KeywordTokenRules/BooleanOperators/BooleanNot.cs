@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules.BooleanOperators
 {
@@ -33,7 +29,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules.BooleanOp
 
         protected override void PerformRuleTransform(List<Token> stack)
         {
-            List<Token> childsInput = new List<Token>();
+            var childsInput = new List<Token>();
             childsInput.Add(stack[stack.Count - 1]);
             ConvertTokens(ref stack, rule.Length, returnType, childsInput);
         }

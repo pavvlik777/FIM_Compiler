@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
 {
@@ -11,7 +7,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
         Token start, end;
         public override string GenerateCode(string offset = "")
         {
-            string code = "";
+            var code = "";
             code += $"{offset}switch({ParseExpression(start.Childs[0])}) {{\n";
             foreach (var cur in Nodes)
                 code += cur.GenerateCode("\t" + offset);
@@ -21,7 +17,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
 
         public override bool CheckNode(List<Error> compileErrors, List<(string, string)> variables, List<(string, string)> methods)
         {
-            bool isCaseExists = false;
+            var isCaseExists = false;
             foreach (var cur in Nodes)
                 if (cur.Type == SyntaxType.SwitchCase)
                     isCaseExists = true;
@@ -30,8 +26,8 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
                 compileErrors.Add(new Error("Switch statement must have at least one case"));
                 return false;
             }
-            int amountOfVars = variables.Count;
-            bool status = true;
+            var amountOfVars = variables.Count;
+            var status = true;
             foreach (var cur in Nodes)
                 status = status && cur.CheckNode(compileErrors, variables, methods);
             while (variables.Count != amountOfVars)

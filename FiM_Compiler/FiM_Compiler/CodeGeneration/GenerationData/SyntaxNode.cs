@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace FiM_Compiler.CodeGeneration.GenerationData
 {
@@ -44,8 +40,8 @@ namespace FiM_Compiler.CodeGeneration.GenerationData
             }
             else if (token.Type == TokenType.BooleanAnd)
             {
-                string value1 = GetExpressionType(token.Childs[0], compileErrors, variables, methods);
-                string value2 = GetExpressionType(token.Childs[1], compileErrors, variables, methods);
+                var value1 = GetExpressionType(token.Childs[0], compileErrors, variables, methods);
+                var value2 = GetExpressionType(token.Childs[1], compileErrors, variables, methods);
                 if ((value1 != "bool" || value2 != "bool") && (value1 != "null" || value2 != "bool") && (value2 != "null" || value1 != "bool"))
                 {
                     compileErrors.Add(new Error("Both parts of boolean xor must have type bool"));
@@ -55,8 +51,8 @@ namespace FiM_Compiler.CodeGeneration.GenerationData
             }
             else if (token.Type == TokenType.BooleanOr)
             {
-                string value1 = GetExpressionType(token.Childs[0], compileErrors, variables, methods);
-                string value2 = GetExpressionType(token.Childs[1], compileErrors, variables, methods);
+                var value1 = GetExpressionType(token.Childs[0], compileErrors, variables, methods);
+                var value2 = GetExpressionType(token.Childs[1], compileErrors, variables, methods);
                 if ((value1 != "bool" || value2 != "bool") && (value1 != "null" || value2 != "bool") && (value2 != "null" || value1 != "bool"))
                 {
                     compileErrors.Add(new Error("Both parts of boolean xor must have type bool"));
@@ -66,8 +62,8 @@ namespace FiM_Compiler.CodeGeneration.GenerationData
             }
             else if (token.Type == TokenType.BooleanXor)
             {
-                string value1 = GetExpressionType(token.Childs[0], compileErrors, variables, methods);
-                string value2 = GetExpressionType(token.Childs[1], compileErrors, variables, methods);
+                var value1 = GetExpressionType(token.Childs[0], compileErrors, variables, methods);
+                var value2 = GetExpressionType(token.Childs[1], compileErrors, variables, methods);
                 if ((value1 != "bool" || value2 != "bool") && (value1 != "null" || value2 != "bool") && (value2 != "null" || value1 != "bool"))
                 {
                     compileErrors.Add(new Error("Both parts of boolean xor must have type bool"));
@@ -77,7 +73,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData
             }
             else if (token.Type == TokenType.BooleanNot)
             {
-                string value1 = GetExpressionType(token.Childs[0], compileErrors, variables, methods);
+                var value1 = GetExpressionType(token.Childs[0], compileErrors, variables, methods);
                 if (value1 != "null" && value1 != "bool")
                 {
                     compileErrors.Add(new Error("Operand of boolean not must have type bool"));
@@ -89,8 +85,8 @@ namespace FiM_Compiler.CodeGeneration.GenerationData
                 token.Type == TokenType.GreaterThan || token.Type == TokenType.GreaterThanOrEqual ||
                 token.Type == TokenType.LessThan || token.Type == TokenType.LessThanOrEqual)
             {
-                string value1 = GetExpressionType(token.Childs[0], compileErrors, variables, methods);
-                string value2 = GetExpressionType(token.Childs[1], compileErrors, variables, methods);
+                var value1 = GetExpressionType(token.Childs[0], compileErrors, variables, methods);
+                var value2 = GetExpressionType(token.Childs[1], compileErrors, variables, methods);
                 if (value1 != value2 && value1 != "null" && value2 != "null")
                 {
                     compileErrors.Add(new Error("Both parts of comparison operator must have same type"));
@@ -100,8 +96,8 @@ namespace FiM_Compiler.CodeGeneration.GenerationData
             }
             else if (token.Type == TokenType.ArifmeticAddition)
             {
-                string value1 = GetExpressionType(token.Childs[0], compileErrors, variables, methods);
-                string value2 = GetExpressionType(token.Childs[1], compileErrors, variables, methods);
+                var value1 = GetExpressionType(token.Childs[0], compileErrors, variables, methods);
+                var value2 = GetExpressionType(token.Childs[1], compileErrors, variables, methods);
                 if ((value1 != "int" || value2 != "int") && (value1 != "null" || value2 != "int") && (value2 != "null" || value1 != "int"))
                 {
                     compileErrors.Add(new Error("Both parts of addition must have type int"));
@@ -111,8 +107,8 @@ namespace FiM_Compiler.CodeGeneration.GenerationData
             }
             else if (token.Type == TokenType.ArifmeticSubstraction)
             {
-                string value1 = GetExpressionType(token.Childs[0], compileErrors, variables, methods);
-                string value2 = GetExpressionType(token.Childs[1], compileErrors, variables, methods);
+                var value1 = GetExpressionType(token.Childs[0], compileErrors, variables, methods);
+                var value2 = GetExpressionType(token.Childs[1], compileErrors, variables, methods);
                 if ((value1 != "int" || value2 != "int") && (value1 != "null" || value2 != "int") && (value2 != "null" || value1 != "int"))
                 {
                     compileErrors.Add(new Error("Both parts of substraction must have type int"));
@@ -123,8 +119,8 @@ namespace FiM_Compiler.CodeGeneration.GenerationData
             else if (token.Type == TokenType.ArifmeticMultiplication)
             {
 
-                string value1 = GetExpressionType(token.Childs[0], compileErrors, variables, methods);
-                string value2 = GetExpressionType(token.Childs[1], compileErrors, variables, methods);
+                var value1 = GetExpressionType(token.Childs[0], compileErrors, variables, methods);
+                var value2 = GetExpressionType(token.Childs[1], compileErrors, variables, methods);
                 if ((value1 != "int" || value2 != "int") && (value1 != "null" || value2 != "int") && (value2 != "null" || value1 != "int"))
                 {
                     compileErrors.Add(new Error("Both parts of nultiplication must have type int"));
@@ -135,8 +131,8 @@ namespace FiM_Compiler.CodeGeneration.GenerationData
             else if (token.Type == TokenType.ArifmeticDivision)
             {
 
-                string value1 = GetExpressionType(token.Childs[0], compileErrors, variables, methods);
-                string value2 = GetExpressionType(token.Childs[1], compileErrors, variables, methods);
+                var value1 = GetExpressionType(token.Childs[0], compileErrors, variables, methods);
+                var value2 = GetExpressionType(token.Childs[1], compileErrors, variables, methods);
                 if ((value1 != "int" || value2 != "int") && (value1 != "null" || value2 != "int") && (value2 != "null" || value1 != "int"))
                 {
                     compileErrors.Add(new Error("Both parts of division must have type int"));
@@ -146,7 +142,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData
             }
             else if (token.Type == TokenType.ArifmeticIncrement)
             {
-                string value1 = GetExpressionType(token.Childs[0], compileErrors, variables, methods);
+                var value1 = GetExpressionType(token.Childs[0], compileErrors, variables, methods);
                 if (value1 != "null" && value1 != "int")
                 {
                     compileErrors.Add(new Error("Operand of increment construction must have type int"));
@@ -156,7 +152,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData
             }
             else if (token.Type == TokenType.ArifmeticDecrement)
             {
-                string value1 = GetExpressionType(token.Childs[0], compileErrors, variables, methods);
+                var value1 = GetExpressionType(token.Childs[0], compileErrors, variables, methods);
                 if (value1 != "null" && value1 != "int")
                 {
                     compileErrors.Add(new Error("Operand of decrement construction must have type int"));
@@ -209,11 +205,11 @@ namespace FiM_Compiler.CodeGeneration.GenerationData
             }
             else if (_token.Type == TokenType.MethodCalling)
             {
-                string output = $"{_token.Childs[0].ValueWithoutWhitespaces}(";
+                var output = $"{_token.Childs[0].ValueWithoutWhitespaces}(";
                 if (_token.Childs.Count >= 2)
                 {
                     output += $"{ParseExpression(_token.Childs[1])}";
-                    for (int i = 2; i < _token.Childs.Count; i++)
+                    for (var i = 2; i < _token.Childs.Count; i++)
                         output += $", {ParseExpression(_token.Childs[i])}";
                 }
                 output += ")";
@@ -225,95 +221,95 @@ namespace FiM_Compiler.CodeGeneration.GenerationData
             }
             else if (_token.Type == TokenType.BooleanAnd)
             {
-                string res0 = ParseExpression(_token.Childs[0]);
-                string res1 = ParseExpression(_token.Childs[1]);
+                var res0 = ParseExpression(_token.Childs[0]);
+                var res1 = ParseExpression(_token.Childs[1]);
                 return $"{res0} && {res1}";
             }
             else if (_token.Type == TokenType.BooleanOr)
             {
-                string res0 = ParseExpression(_token.Childs[0]);
-                string res1 = ParseExpression(_token.Childs[1]);
+                var res0 = ParseExpression(_token.Childs[0]);
+                var res1 = ParseExpression(_token.Childs[1]);
                 return $"{res0} || {res1}";
             }
             else if (_token.Type == TokenType.BooleanXor)
             {
-                string res0 = ParseExpression(_token.Childs[0]);
-                string res1 = ParseExpression(_token.Childs[1]);
+                var res0 = ParseExpression(_token.Childs[0]);
+                var res1 = ParseExpression(_token.Childs[1]);
                 return $"{res0} ^ {res1}";
             }
             else if (_token.Type == TokenType.BooleanNot)
             {
-                string res0 = ParseExpression(_token.Childs[0]);
+                var res0 = ParseExpression(_token.Childs[0]);
                 return $"!{res0}";
             }
             else if (_token.Type == TokenType.IsEqual)
             {
-                string res0 = ParseExpression(_token.Childs[0]);
-                string res1 = ParseExpression(_token.Childs[1]);
+                var res0 = ParseExpression(_token.Childs[0]);
+                var res1 = ParseExpression(_token.Childs[1]);
                 return $"{res0} == {res1}";
             }
             else if (_token.Type == TokenType.IsNotEqual)
             {
-                string res0 = ParseExpression(_token.Childs[0]);
-                string res1 = ParseExpression(_token.Childs[1]);
+                var res0 = ParseExpression(_token.Childs[0]);
+                var res1 = ParseExpression(_token.Childs[1]);
                 return $"{res0} != {res1}";
             }
             else if (_token.Type == TokenType.GreaterThan)
             {
-                string res0 = ParseExpression(_token.Childs[0]);
-                string res1 = ParseExpression(_token.Childs[1]);
+                var res0 = ParseExpression(_token.Childs[0]);
+                var res1 = ParseExpression(_token.Childs[1]);
                 return $"{res0} > {res1}";
             }
             else if (_token.Type == TokenType.GreaterThanOrEqual)
             {
-                string res0 = ParseExpression(_token.Childs[0]);
-                string res1 = ParseExpression(_token.Childs[1]);
+                var res0 = ParseExpression(_token.Childs[0]);
+                var res1 = ParseExpression(_token.Childs[1]);
                 return $"{res0} >= {res1}";
             }
             else if (_token.Type == TokenType.LessThan)
             {
-                string res0 = ParseExpression(_token.Childs[0]);
-                string res1 = ParseExpression(_token.Childs[1]);
+                var res0 = ParseExpression(_token.Childs[0]);
+                var res1 = ParseExpression(_token.Childs[1]);
                 return $"{res0} < {res1}";
             }
             else if (_token.Type == TokenType.LessThanOrEqual)
             {
-                string res0 = ParseExpression(_token.Childs[0]);
-                string res1 = ParseExpression(_token.Childs[1]);
+                var res0 = ParseExpression(_token.Childs[0]);
+                var res1 = ParseExpression(_token.Childs[1]);
                 return $"{res0} <= {res1}";
             }
             else if (_token.Type == TokenType.ArifmeticAddition)
             {
-                string res0 = ParseExpression(_token.Childs[0]);
-                string res1 = ParseExpression(_token.Childs[1]);
+                var res0 = ParseExpression(_token.Childs[0]);
+                var res1 = ParseExpression(_token.Childs[1]);
                 return $"{res0} + {res1}";
             }
             else if (_token.Type == TokenType.ArifmeticSubstraction)
             {
-                string res0 = ParseExpression(_token.Childs[0]);
-                string res1 = ParseExpression(_token.Childs[1]);
+                var res0 = ParseExpression(_token.Childs[0]);
+                var res1 = ParseExpression(_token.Childs[1]);
                 return $"{res0} - {res1}";
             }
             else if (_token.Type == TokenType.ArifmeticMultiplication)
             {
-                string res0 = ParseExpression(_token.Childs[0]);
-                string res1 = ParseExpression(_token.Childs[1]);
+                var res0 = ParseExpression(_token.Childs[0]);
+                var res1 = ParseExpression(_token.Childs[1]);
                 return $"{res0} * {res1}";
             }
             else if (_token.Type == TokenType.ArifmeticDivision)
             {
-                string res0 = ParseExpression(_token.Childs[0]);
-                string res1 = ParseExpression(_token.Childs[1]);
+                var res0 = ParseExpression(_token.Childs[0]);
+                var res1 = ParseExpression(_token.Childs[1]);
                 return $"{res0} / {res1}";
             }
             else if (_token.Type == TokenType.ArifmeticIncrement)
             {
-                string res0 = ParseExpression(_token.Childs[0]);
+                var res0 = ParseExpression(_token.Childs[0]);
                 return $"{res0}++";
             }
             else if (_token.Type == TokenType.ArifmeticDecrement)
             {
-                string res0 = ParseExpression(_token.Childs[0]);
+                var res0 = ParseExpression(_token.Childs[0]);
                 return $"{res0}--";
             }
             return "";
@@ -324,7 +320,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData
 
         public virtual bool CheckNode(List<Error> compileErrors, List<(string, string)> variables, List<(string, string)> methods)
         {
-            bool status = true;
+            var status = true;
             foreach (var cur in Nodes)
                 status = status && cur.CheckNode(compileErrors, variables, methods);
             return status;

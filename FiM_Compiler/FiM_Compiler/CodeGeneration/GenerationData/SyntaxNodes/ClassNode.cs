@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
 {
@@ -11,8 +8,8 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
         Token start, end;
         public override string GenerateCode(string offset = "")
         {
-            string code = $"class {start.Childs[1].ValueWithoutWhitespaces} : {start.Childs[0].ValueWithoutWhitespaces}";
-            for (int i = 2; i < start.Childs.Count; i++)
+            var code = $"class {start.Childs[1].ValueWithoutWhitespaces} : {start.Childs[0].ValueWithoutWhitespaces}";
+            for (var i = 2; i < start.Childs.Count; i++)
                 code += $", {start.Childs[i].ValueWithoutWhitespaces}";
             code += "\n{\n";
             foreach (var cur in Nodes)
@@ -25,12 +22,12 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
 
         public int AmountOfEntryPoints()
         {
-            int amount = 0;
+            var amount = 0;
             foreach (var cur in Nodes)
             {
                 if(cur.Type == SyntaxType.MethodDeclaring)
                 {
-                    MethodNode node = (MethodNode)cur;
+                    var node = (MethodNode)cur;
                     if (node.IsMain) amount++;
                 }
             }
@@ -39,13 +36,13 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
 
         public override bool CheckNode(List<Error> compileErrors, List<(string, string)> variables, List<(string, string)> methods)
         {
-            int amountOfMethods = methods.Count;
+            var amountOfMethods = methods.Count;
             foreach(var cur in Nodes)
             {
                 if(cur.Type == SyntaxType.MethodDeclaring)
                 {
-                    MethodNode node = (MethodNode)cur;
-                    (string, string) metadata = node.GetMethodMetadata();
+                    var node = (MethodNode)cur;
+                    var metadata = node.GetMethodMetadata();
                     if (methods.Any(x => x.Item1 == metadata.Item1))
                     {
                         compileErrors.Add(new Error($"Method with name {metadata.Item1} already exists"));
@@ -54,7 +51,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
                     methods.Add(metadata);
                 }
             }
-            bool status = true;
+            var status = true;
             foreach (var cur in Nodes)
                 status = status && cur.CheckNode(compileErrors, variables, methods);
             while (methods.Count != amountOfMethods)

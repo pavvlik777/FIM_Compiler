@@ -35,7 +35,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData
 
         protected bool IsPattern(List<Token> stack, TokenType[] checks)
         {
-            bool output = true;
+            var output = true;
             if (stack.Count > checks.Length - 1)
             {
                 for (int j = 0, i = checks.Length; i >= 1; i--, j = checks.Length - i)
@@ -103,15 +103,15 @@ namespace FiM_Compiler.CodeGeneration.GenerationData
 
         protected void ConvertTokens(ref List<Token> stack, int amount, TokenType newType, List<Token> childs = null)
         {
-            string value = "";
+            var value = "";
             Token newToken = null;
-            for (int j = amount; j >= 1; j--)
+            for (var j = amount; j >= 1; j--)
                 value += stack[stack.Count - j].Value;
             if (childs != null)
                 newToken = new Token(newType, value, new List<Token>(childs));
             else
                 newToken = new Token(newType, value);
-            for (int j = 1; j <= amount; j++)
+            for (var j = 1; j <= amount; j++)
                 stack.RemoveAt(stack.Count - 1);
             stack.Add(newToken);
         }

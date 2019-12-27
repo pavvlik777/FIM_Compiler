@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace FiM_Compiler.CodeGeneration.Compilers
+﻿namespace FiM_Compiler.CodeGeneration.Compilers
 {
     public class ExeCompiler : Compiler
     {

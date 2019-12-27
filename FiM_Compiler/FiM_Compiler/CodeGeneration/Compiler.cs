@@ -1,35 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace FiM_Compiler.CodeGeneration
 {
     public abstract class Compiler
     {
-        protected List<Error> compileErrors;
-        public List<Error> CompileErrors
-        {
-            get
-            {
-                return compileErrors;
-            }
-        }
-        public string outputFilename { get; protected set; }
-        protected string originalSourceCode;
-        protected string sourceCode;
-        protected string filename;
+        protected string SourceCode;
+        protected string Filename;
+
+        public List<Error> CompileErrors { get; protected set; }
+        public string OutputFilename { get; protected set; }
+
 
         public Compiler()
         {
-            sourceCode = "";
-            filename = "";
+            SourceCode = "";
+            Filename = "";
         }
+
 
         public virtual void Compile(string sourceCode, string filename)
         {
-            this.originalSourceCode = sourceCode;
-            this.sourceCode = sourceCode;
-            this.filename = filename;
-            outputFilename = "";
+            this.SourceCode = sourceCode;
+            this.Filename = filename;
+            OutputFilename = "";
         }
     }
 }

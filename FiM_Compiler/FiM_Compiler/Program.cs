@@ -1,55 +1,55 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 
 using FiM_Compiler.CodeGeneration;
 
 namespace FiM_Compiler
 {
-    class Program
+    public class Program
     {
-        string sourceName = "SourceCode.fpp";
-        static bool isDebug = true;
+        private string _sourceName = "SourceCode.fpp";
+        private static bool IsDebug = true;
 
-        string codeText;
+        private string _codeText;
 
-        static void Main()
+
+        private static void Main()
         {
-            Program program = new Program();
+            var program = new Program();
             Console.WriteLine("Enter filename with extension");
-            program.sourceName = Console.ReadLine();
-            bool loading = program.LoadFile();
+            program._sourceName = Console.ReadLine();
+            var loading = program.LoadFile();
             if (loading)
             {
-                CompilerFactory factory = new CompilerFactory();
-                factory.Compile(CompilerMode.CSharp, program.codeText, program.sourceName);
+                var factory = new CompilerFactory();
+                factory.Compile(CompilerMode.CSharp, program._codeText, program._sourceName);
             }
-            if (isDebug)
+            if (!IsDebug)
             {
-                Console.WriteLine("Press any key to exit...");
-                Console.ReadKey();
+                return;
             }
+            Console.WriteLine("Press any key to exit...");
+            Console.ReadKey();
         }
 
-        bool LoadFile()
+        private bool LoadFile()
         {
-            bool isOK = false;
-            string filepath = $@"{Environment.CurrentDirectory}\{sourceName}";
-            List<Error> errors = new List<Error>();
-            FileInfo sourceFile = new FileInfo(filepath);
+            var filepath = $@"{Environment.CurrentDirectory}\{_sourceName}";
+            var errors = new List<Error>();
+            var sourceFile = new FileInfo(filepath);
             if (sourceFile.Extension == ".fpp")
             {
                 if (sourceFile.Exists)
                 {
-                    using (StreamReader reader = new StreamReader($"{filepath}", System.Text.Encoding.UTF8))
+                    using (var reader = new StreamReader($"{filepath}", System.Text.Encoding.UTF8))
                     {
-                        codeText = reader.ReadToEnd();
+                        _codeText = reader.ReadToEnd();
                     }
                 }
                 else
                 {
-                    errors.Add(new Error($"File {sourceName} doesn't exist"));
+                    errors.Add(new Error($"File {_sourceName} doesn't exist"));
                 }
             }
             else
@@ -58,23 +58,24 @@ namespace FiM_Compiler
             }
             if (errors.Count > 0)
             {
-                if (errors.Count > 1)
-                    Console.WriteLine($"Compilation ended with errors");
-                else
-                    Console.WriteLine($"Compilation ended with error");
-                foreach (Error cur in errors)
+                Console.WriteLine(errors.Count > 1
+                    ? $"Compilation ended with errors"
+                    : $"Compilation ended with error");
+                foreach (var cur in errors)
                 {
                     Console.WriteLine(cur.ToString());
                 }
             }
-            isOK = errors.Count == 0;
-            return isOK;
+            var isOk = errors.Count == 0;
+
+            return isOk;
         }
+
 
         #region Constructors
         public Program()
         {
-            codeText = "";
+            _codeText = "";
         }
         #endregion
     }

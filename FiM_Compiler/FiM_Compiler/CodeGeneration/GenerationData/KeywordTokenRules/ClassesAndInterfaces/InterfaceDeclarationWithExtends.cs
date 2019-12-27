@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules
+namespace FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules.ClassesAndInterfaces
 {
     public class InterfaceDeclarationWithExtends : TokenRule
     {
@@ -26,7 +26,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules
 
         protected override void PerformRuleTransform(List<Token> stack)
         {
-            List<Token> childsInput = new List<Token>();
+            var childsInput = new List<Token>();
             childsInput.AddRange(stack[stack.Count - 4].Childs);
             foreach (var cur in stack[stack.Count - 2].Childs)
                 childsInput.Add(cur);

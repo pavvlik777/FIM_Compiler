@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
 {
@@ -10,7 +6,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
     {
         public override string GenerateCode(string offset = "")
         {
-            string code = "";
+            var code = "";
             foreach (var cur in Nodes)
                 code += cur.GenerateCode();
             return code;
@@ -21,11 +17,11 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
 
         public override bool CheckNode(List<Error> compileErrors, List<(string, string)> variables, List<(string, string)> methods)
         {
-            int amountOfEntryPoints = 0;
+            var amountOfEntryPoints = 0;
             foreach (var cur in Nodes)
                 if(cur.Type == SyntaxType.Class)
                 {
-                    ClassNode node = (ClassNode)cur;
+                    var node = (ClassNode)cur;
                     amountOfEntryPoints += node.AmountOfEntryPoints();
                 }
             if(amountOfEntryPoints != 1)
@@ -34,7 +30,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
                 return false;
             }
 
-            bool status = true;
+            var status = true;
             foreach (var cur in Nodes)
                 status = status && cur.CheckNode(compileErrors, variables, methods);
             return status;
