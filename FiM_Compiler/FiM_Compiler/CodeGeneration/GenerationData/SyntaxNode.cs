@@ -4,11 +4,59 @@ using FiM_Compiler.CodeGeneration.Compilers.Interfaces;
 
 namespace FiM_Compiler.CodeGeneration.GenerationData
 {
-    public abstract class SyntaxNode// : ISyntaxNode TODO
+    public abstract class SyntaxNode// : ISyntaxNode
     {
+        private static readonly IDictionary<TokenType, string> ExpressionsOperators;
+
+
+        public List<SyntaxNode> Nodes { get; }
+
         public SyntaxType Type { get; }
 
+
+        static SyntaxNode()
+        {
+            ExpressionsOperators = new Dictionary<TokenType, string>
+            {
+                { TokenType.BooleanAnd, "&&" },
+                { TokenType.BooleanOr, "||" },
+                { TokenType.BooleanXor, "^" },
+
+                { TokenType.IsEqual, "==" },
+                { TokenType.IsNotEqual, "!=" },
+
+                { TokenType.GreaterThan, ">" },
+                { TokenType.GreaterThanOrEqual, ">=" },
+                { TokenType.LessThan, "<" },
+                { TokenType.LessThanOrEqual, "<=" },
+
+                { TokenType.ArifmeticAddition, "+" },
+                { TokenType.ArifmeticSubtraction, "-" },
+                { TokenType.ArifmeticMultiplication, "*" },
+                { TokenType.ArifmeticDivision, "/" },
+            };
+        }
+
+        public SyntaxNode(SyntaxType type)
+        {
+            Nodes = new List<SyntaxNode>();
+            Type = type;
+        }
+
+
         //public abstract SyntaxNode Node(SyntaxType parent, int start, int end, List<Token> tokens, List<Error> compileErrors);
+
+        public abstract string GenerateCode(string offset = "");
+
+        public virtual bool CheckNode(List<Error> compileErrors, List<(string, string)> variables, List<(string, string)> methods)
+        {
+            var status = true;
+            foreach (var cur in Nodes)
+            {
+                status = status && cur.CheckNode(compileErrors, variables, methods);
+            }
+            return status;
+        }
 
 
         protected static string GetExpressionType(Token token, List<Error> compileErrors, List<(string, string)> variables, List<(string, string)> methods)
@@ -29,31 +77,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData
                 case TokenType.ArifmeticExpression:
                     return GetExpressionType(token.Childs[0], compileErrors, variables, methods);
                 case TokenType.BooleanAnd:
-                    {
-                        var value1 = GetExpressionType(token.Childs[0], compileErrors, variables, methods);
-                        var value2 = GetExpressionType(token.Childs[1], compileErrors, variables, methods);
-                        if ((value1 == "bool" && value2 == "bool") || (value1 == "null" && value2 == "bool") ||
-                            (value2 == "null" && value1 == "bool"))
-                        {
-                            return "bool";
-                        }
-                        compileErrors.Add(new Error("Both parts of boolean xor must have type bool"));
-
-                        return "Error";
-                    }
                 case TokenType.BooleanOr:
-                    {
-                        var value1 = GetExpressionType(token.Childs[0], compileErrors, variables, methods);
-                        var value2 = GetExpressionType(token.Childs[1], compileErrors, variables, methods);
-                        if ((value1 == "bool" && value2 == "bool") || (value1 == "null" && value2 == "bool") ||
-                            (value2 == "null" && value1 == "bool"))
-                        {
-                            return "bool";
-                        }
-                        compileErrors.Add(new Error("Both parts of boolean xor must have type bool"));
-
-                        return "Error";
-                    }
                 case TokenType.BooleanXor:
                     {
                         var value1 = GetExpressionType(token.Childs[0], compileErrors, variables, methods);
@@ -63,7 +87,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData
                         {
                             return "bool";
                         }
-                        compileErrors.Add(new Error("Both parts of boolean xor must have type bool"));
+                        compileErrors.Add(new Error("Both parts of boolean operation must have type bool")); //TODO custom message
 
                         return "Error";
                     }
@@ -91,49 +115,13 @@ namespace FiM_Compiler.CodeGeneration.GenerationData
                         {
                             return "bool";
                         }
-                        compileErrors.Add(new Error("Both parts of comparison operator must have same type"));
+                        compileErrors.Add(new Error("Both parts of comparison operator must have same type")); //TODO custom message
 
                         return "Error";
                     }
                 case TokenType.ArifmeticAddition:
-                    {
-                        var value1 = GetExpressionType(token.Childs[0], compileErrors, variables, methods);
-                        var value2 = GetExpressionType(token.Childs[1], compileErrors, variables, methods);
-                        if ((value1 == "int" && value2 == "int") || (value1 == "null" && value2 == "int") ||
-                            (value2 == "null" && value1 == "int"))
-                        {
-                            return "int";
-                        }
-                        compileErrors.Add(new Error("Both parts of addition must have type int"));
-
-                        return "Error";
-                    }
-                case TokenType.ArifmeticSubstraction:
-                    {
-                        var value1 = GetExpressionType(token.Childs[0], compileErrors, variables, methods);
-                        var value2 = GetExpressionType(token.Childs[1], compileErrors, variables, methods);
-                        if ((value1 == "int" && value2 == "int") || (value1 == "null" && value2 == "int") ||
-                            (value2 == "null" && value1 == "int"))
-                        {
-                            return "int";
-                        }
-                        compileErrors.Add(new Error("Both parts of subtraction must have type int"));
-
-                        return "Error";
-                    }
+                case TokenType.ArifmeticSubtraction:
                 case TokenType.ArifmeticMultiplication:
-                    {
-                        var value1 = GetExpressionType(token.Childs[0], compileErrors, variables, methods);
-                        var value2 = GetExpressionType(token.Childs[1], compileErrors, variables, methods);
-                        if ((value1 == "int" && value2 == "int") || (value1 == "null" && value2 == "int") ||
-                            (value2 == "null" && value1 == "int"))
-                        {
-                            return "int";
-                        }
-                        compileErrors.Add(new Error("Both parts of multiplication must have type int"));
-
-                        return "Error";
-                    }
                 case TokenType.ArifmeticDivision:
                     {
                         var value1 = GetExpressionType(token.Childs[0], compileErrors, variables, methods);
@@ -143,21 +131,11 @@ namespace FiM_Compiler.CodeGeneration.GenerationData
                         {
                             return "int";
                         }
-                        compileErrors.Add(new Error("Both parts of division must have type int"));
+                        compileErrors.Add(new Error("Both parts of arifmetic operation must have type int")); //TODO custom message
 
                         return "Error";
                     }
                 case TokenType.ArifmeticIncrement:
-                    {
-                        var value1 = GetExpressionType(token.Childs[0], compileErrors, variables, methods);
-                        if (value1 == "null" || value1 == "int")
-                        {
-                            return "int";
-                        }
-                        compileErrors.Add(new Error("Operand of increment construction must have type int"));
-
-                        return "Error";
-                    }
                 case TokenType.ArifmeticDecrement:
                     {
                         var value1 = GetExpressionType(token.Childs[0], compileErrors, variables, methods);
@@ -165,7 +143,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData
                         {
                             return "int";
                         }
-                        compileErrors.Add(new Error("Operand of decrement construction must have type int"));
+                        compileErrors.Add(new Error("Operand of increment/decrement construction must have type int")); //TODO custom message
 
                         return "Error";
                     }
@@ -243,101 +221,29 @@ namespace FiM_Compiler.CodeGeneration.GenerationData
                     return "null";
                 }
                 case TokenType.BooleanAnd:
-                {
-                    var res0 = ParseExpression(token.Childs[0]);
-                    var res1 = ParseExpression(token.Childs[1]);
-
-                    return $"{res0} && {res1}";
-                }
                 case TokenType.BooleanOr:
-                {
-                    var res0 = ParseExpression(token.Childs[0]);
-                    var res1 = ParseExpression(token.Childs[1]);
-
-                    return $"{res0} || {res1}";
-                }
                 case TokenType.BooleanXor:
-                {
+                case TokenType.IsEqual:
+                case TokenType.IsNotEqual:
+                case TokenType.GreaterThan:
+                case TokenType.GreaterThanOrEqual:
+                case TokenType.LessThan:
+                case TokenType.LessThanOrEqual:
+                case TokenType.ArifmeticAddition:
+                case TokenType.ArifmeticSubtraction:
+                case TokenType.ArifmeticMultiplication:
+                case TokenType.ArifmeticDivision:
+                    {
                     var res0 = ParseExpression(token.Childs[0]);
                     var res1 = ParseExpression(token.Childs[1]);
 
-                    return $"{res0} ^ {res1}";
+                    return ParseInfix(token.Type, res0, res1);
                 }
                 case TokenType.BooleanNot:
                 {
                     var res0 = ParseExpression(token.Childs[0]);
 
                     return $"!{res0}";
-                }
-                case TokenType.IsEqual:
-                {
-                    var res0 = ParseExpression(token.Childs[0]);
-                    var res1 = ParseExpression(token.Childs[1]);
-
-                    return $"{res0} == {res1}";
-                }
-                case TokenType.IsNotEqual:
-                {
-                    var res0 = ParseExpression(token.Childs[0]);
-                    var res1 = ParseExpression(token.Childs[1]);
-
-                    return $"{res0} != {res1}";
-                }
-                case TokenType.GreaterThan:
-                {
-                    var res0 = ParseExpression(token.Childs[0]);
-                    var res1 = ParseExpression(token.Childs[1]);
-
-                    return $"{res0} > {res1}";
-                }
-                case TokenType.GreaterThanOrEqual:
-                {
-                    var res0 = ParseExpression(token.Childs[0]);
-                    var res1 = ParseExpression(token.Childs[1]);
-
-                    return $"{res0} >= {res1}";
-                }
-                case TokenType.LessThan:
-                {
-                    var res0 = ParseExpression(token.Childs[0]);
-                    var res1 = ParseExpression(token.Childs[1]);
-
-                    return $"{res0} < {res1}";
-                }
-                case TokenType.LessThanOrEqual:
-                {
-                    var res0 = ParseExpression(token.Childs[0]);
-                    var res1 = ParseExpression(token.Childs[1]);
-
-                    return $"{res0} <= {res1}";
-                }
-                case TokenType.ArifmeticAddition:
-                {
-                    var res0 = ParseExpression(token.Childs[0]);
-                    var res1 = ParseExpression(token.Childs[1]);
-
-                    return $"{res0} + {res1}";
-                }
-                case TokenType.ArifmeticSubstraction:
-                {
-                    var res0 = ParseExpression(token.Childs[0]);
-                    var res1 = ParseExpression(token.Childs[1]);
-
-                    return $"{res0} - {res1}";
-                }
-                case TokenType.ArifmeticMultiplication:
-                {
-                    var res0 = ParseExpression(token.Childs[0]);
-                    var res1 = ParseExpression(token.Childs[1]);
-
-                    return $"{res0} * {res1}";
-                }
-                case TokenType.ArifmeticDivision:
-                {
-                    var res0 = ParseExpression(token.Childs[0]);
-                    var res1 = ParseExpression(token.Childs[1]);
-
-                    return $"{res0} / {res1}";
                 }
                 case TokenType.ArifmeticIncrement:
                 {
@@ -357,25 +263,17 @@ namespace FiM_Compiler.CodeGeneration.GenerationData
                 }
             }
         }
-        public List<SyntaxNode> Nodes { get; private set; }
 
-        public abstract string GenerateCode(string offset = "");
-
-        public virtual bool CheckNode(List<Error> compileErrors, List<(string, string)> variables, List<(string, string)> methods)
+        protected static bool IsTokenWhiteSpace(Token token)
         {
-            var status = true;
-            foreach (var cur in Nodes)
-            {
-                status = status && cur.CheckNode(compileErrors, variables, methods);
-            }
-            return status;
+            return token.Type == TokenType.Whitespace || token.Type == TokenType.SingleSpace || token.Type == TokenType.Newline || token.Type == TokenType.MultilineComment
+                   || token.Type == TokenType.InlineComment;
         }
 
 
-        public SyntaxNode(SyntaxType type)
+        private static string ParseInfix(TokenType type, string value1, string value2)
         {
-            Nodes = new List<SyntaxNode>();
-            Type = type;
+            return $"{value1} {ExpressionsOperators[type]} {value2}";
         }
     }
 }

@@ -6,7 +6,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules.Arifmetic
     {
         public SubstractionInfix()
         {
-            returnType = TokenType.ArifmeticSubstraction;
+            returnType = TokenType.ArifmeticSubtraction;
             rule = new TokenType[] {
                 TokenType.IntValue, TokenType.Whitespace, TokenType.Keyword, TokenType.Whitespace, TokenType.IntValue
             };

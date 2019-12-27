@@ -16,7 +16,7 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.KeywordTokenRules.Arifmetic
                 new TokenType[] { TokenType.ArifmeticDivision },
                 new TokenType[] { TokenType.ArifmeticIncrement },
                 new TokenType[] { TokenType.ArifmeticMultiplication },
-                new TokenType[] { TokenType.ArifmeticSubstraction }
+                new TokenType[] { TokenType.ArifmeticSubtraction }
             };
             CheckVariations();
         }

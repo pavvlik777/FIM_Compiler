@@ -115,6 +115,7 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp
                                         }
 
                                         compileErrors.Add(new Error("Unexpected expression in program body"));
+
                                         return null;
                                     }
                             }
@@ -201,6 +202,7 @@ namespace FiM_Compiler.CodeGeneration.Compilers.CSharp
                                         }
 
                                         compileErrors.Add(new Error("Unexpected expression in class body"));
+
                                         return null;
                                     }
                             }

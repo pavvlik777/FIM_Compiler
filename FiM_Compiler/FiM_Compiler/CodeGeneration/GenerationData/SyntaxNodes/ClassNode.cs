@@ -9,6 +9,95 @@ namespace FiM_Compiler.CodeGeneration.GenerationData.SyntaxNodes
         private readonly Token _end;
 
 
+        public SyntaxNode Node(SyntaxType parent, int start, int end, List<Token> tokens, List<Error> compileErrors)
+        {
+            var node = new ClassNode(tokens[start - 1], tokens[end]);
+            for (var i = start; i < end; i++)
+            {
+                switch (tokens[i].Type)
+                {
+                    case TokenType.MethodDeclaration:
+                        {
+                            var newStart = i + 1;
+                            var left = 1;
+                            var right = 0;
+                            while (left != right)
+                            {
+                                i++;
+                                if (i >= end)
+                                {
+                                    compileErrors.Add(new Error("Missing end of method declaration"));
+
+                                    return null;
+                                }
+                                switch (tokens[i].Type)
+                                {
+                                    case TokenType.MethodDeclaration:
+                                    case TokenType.MainMethodDeclaration:
+                                        left++;
+                                        break;
+                                    case TokenType.MethodEndDeclaration:
+                                        right++;
+                                        break;
+                                }
+                            }
+                            var childNode = Node(SyntaxType.MethodDeclaring, newStart, i, tokens, compileErrors);
+                            if (childNode == null)
+                            {
+                                return null;
+                            }
+                            node.Nodes.Add(childNode);
+                            break;
+                        }
+                    case TokenType.MainMethodDeclaration:
+                        {
+                            var newStart = i + 1;
+                            var left = 1;
+                            var right = 0;
+                            while (left != right)
+                            {
+                                i++;
+                                if (i >= end)
+                                {
+                                    compileErrors.Add(new Error("Missing end of main method declaration"));
+                                    return null;
+                                }
+                                switch (tokens[i].Type)
+                                {
+                                    case TokenType.MethodDeclaration:
+                                    case TokenType.MainMethodDeclaration:
+                                        left++;
+                                        break;
+                                    case TokenType.MethodEndDeclaration:
+                                        right++;
+                                        break;
+                                }
+                            }
+                            var childNode = Node(SyntaxType.MainMethodDeclaring, newStart, i, tokens, compileErrors);
+                            if (childNode == null)
+                            {
+                                return null;
+                            }
+                            node.Nodes.Add(childNode);
+                            break;
+                        }
+                    default:
+                        {
+                            if (IsTokenWhiteSpace(tokens[i]))
+                            {
+                                continue;
+                            }
+
+                            compileErrors.Add(new Error("Unexpected expression in class body"));
+
+                            return null;
+                        }
+                }
+            }
+
+            return node;
+        }
+
         public override string GenerateCode(string offset = "")
         {
             var code = $"class {_start.Childs[1].ValueWithoutWhitespaces} : {_start.Childs[0].ValueWithoutWhitespaces}";
